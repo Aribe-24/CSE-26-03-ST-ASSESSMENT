@@ -15,9 +15,15 @@ router.get('/', async (req, res) => {
         return res.status(500).send("Error loading dashboard");
     }
 });
+router.get('/lianvid',(req,res)=>{
+    res.render('videos')
+})
 
 router.get('/upload', (req, res) => {
     return res.render('uploads'); 
+});
+router.get('/video', (req, res) => {
+    return res.render('videos'); 
 });
 
 // Route to handle video upload submission

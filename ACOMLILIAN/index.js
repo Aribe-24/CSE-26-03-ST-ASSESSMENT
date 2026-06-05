@@ -18,9 +18,9 @@ connectDB();
 
 
 // 2. Middleware
-app.use(express.json()); // Parses incoming JSON requests
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); // Parses form data
-app.use(express.static(path.join(__dirname, 'public'))); // Serves CSS/JS
+app.use(express.static(path.join(__dirname, 'public'))); 
 
 // 3. View Engine
 app.set('view engine', 'pug');

@@ -49,7 +49,6 @@ html(lang="en")
       document.getElementById('uploadForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // Reset previous errors
         document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
         document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
 
