@@ -1,0 +1,41 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Upload Video
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
+  link(rel='stylesheet' href='/css/uploader.css')
+.upload-container
+  .header-with-back 
+    a.back-arrow(href='/video')
+      i.fas.fa-arrow-left
+  h1.form-title Upload your video
+  if success 
+    .success-message
+      i.fas.fa-check-circle
+      span Video added successfully
+  form.upload-form(action='/upload' method='POST' enctype='multipart/form-data' novalidate)
+    .form-left
+      input.input-field(type='text' name='title' placeholder='Video Title')
+      textarea.input-field.textarea-field(name='description' placeholder='Description (Optional)')
+      select.input-field(name='quality')
+        option(value='' disabled selected) Video quality
+        option(value='1080') 1080p
+        option(value='720') 720p
+        option(value='480') 480p
+        option(value='360') 360p
+      input.input-field(type='text' name='dateOfPublishing' placeholder='Date of Publishing' onfocus="(this.type='date')")
+    .form-right
+      .dropzone.video-drop
+        i.fas.fa-cloud-upload-alt
+        p Upload video
+        input(type='file' name='video' accept='video/mp4,video/webm,video/ogg' style='display:none;')
+        .video-preview-container
+          video#videoPreview.media-preview(controls style='display:none;')
+      .dropzone.thumbnail-drop
+        i.fas.fa-cloud-upload-alt
+        p Upload Thumbnail
+        input(type='file' name='thumbnail' accept='image/jpeg,image/png,image/jpg' style='display:none')
+        img#thumbnailPreview.media-preview(style='display:none;')
+      button.submit-btn(type='submit') UPLOAD
+script(src='/js/uploader.js')
