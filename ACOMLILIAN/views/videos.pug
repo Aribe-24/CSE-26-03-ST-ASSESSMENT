@@ -1,0 +1,56 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Videx Videos
+    link(rel="stylesheet" href="/css/video.css")
+  body
+    header
+      .logo ▶ Videx
+      button.add-btn Add Video
+    
+    main
+      h2 Videos
+      hr
+      .video-grid
+        //- Repeat this block for each video
+        .card
+          .thumbnail(style="background-color: red;")
+          .title Arsenal wins the premier league after 22 years.
+          .meta 999k views . 2 weeks ago
+        
+        .card
+          .thumbnail(style="background-color: lightblue;")
+          .title Manchester City lost its 2nd Consecutive premier league title
+          .meta 999k views . 2 weeks ago
+          .card
+          .thumbnail(style="background-color: red;")
+          .title Arsenal wins the premier league after 22 years.
+          .meta 999k views . 2 weeks ago
+        
+        .card
+          .thumbnail(style="background-color: lightblue;")
+          .title Manchester City lost its 2nd Consecutive premier league title
+          .meta 999k views . 2 weeks ago
+          .card
+          .thumbnail(style="background-color: red;")
+          .title Arsenal wins the premier league after 22 years.
+          .meta 999k views . 2 weeks ago
+        
+        .card
+          .thumbnail(style="background-color: lightblue;")
+          .title Manchester City lost its 2nd Consecutive premier league title
+          .meta 999k views . 2 weeks ago
+          .card
+          .thumbnail(style="background-color: red;")
+          .title Arsenal wins the premier league after 22 years.
+          .meta 999k views . 2 weeks ago
+        
+        .card
+          .thumbnail(style="background-color: lightblue;")
+          .title Manchester City lost its 2nd Consecutive premier league title
+          .meta 999k views . 2 weeks ago
+
+    script.
+      console.log("Videx dashboard loaded.");

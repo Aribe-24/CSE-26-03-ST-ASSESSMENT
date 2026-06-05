@@ -1,0 +1,51 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    background-color: #ffffff;
+}
+
+.container {
+    text-align: center;
+}
+
+.logo {
+    font-size: 80px;
+    font-weight: bold;
+    color: #ff0000;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.icon {
+    background-color: #ff0000;
+    color: white;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+#join-btn {
+    padding: 15px 60px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff0000;
+    background-color: transparent;
+    border: 2px solid #ff0000;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#join-btn:hover {
+    background-color: #ff0000;
+    color: white;
+}
