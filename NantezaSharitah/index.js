@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const MongoStore = require("connect-mongo").default;
 
-// const Registration = require("./models/Registration");
+const Registration = require("./models/Upload");
 
 require("dotenv").config();
 const connectDb = require("./config/db");

@@ -10,14 +10,14 @@ main.upload-container
   h2.form-title Upload your video
   form.upload-form
     .form-left
-      input.input-field(type='text' placeholder='Video Title' required='')
+      input.input-field(type='text' placeholder='Video Title' required)
       textarea.input-field.textarea-field(placeholder='Description (Optional)')
       select.input-field.select-field(required='')
         option(value='' disabled='' selected='') Video quality
         option(value='1080p') 1080p (Full HD)
         option(value='720p') 720p (HD)
-        option(value='480p') 480p (SD)
-      input.input-field(type='date' placeholder='Date of Publishing' required='')
+        option(value='360p') 360p (SD)
+      input.input-field(type='date' placeholder='Date of Publishing' required)
     .form-right
       label.dropzone.video-drop
         input(type='file' accept='video/*' hidden='')

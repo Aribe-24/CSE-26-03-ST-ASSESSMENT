@@ -121,5 +121,7 @@ body {
 }
 
 .submit-btn:hover {
-    background-color: #c62828;
+    background-color: white; /* Changes to white on hover */
+    color: #e53935; /* Text changes to red on hover */
+    border: 2px solid #e53935; /* Adds red border on hover */
 }
