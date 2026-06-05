@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    title Videos
+    link(rel="stylesheet" href="/css/style.css")
+
+  body
+
+    .header
+      h1.logo Videx
+
+      a(href="/upload")
+        button.add-btn Add Video
+
+    h2 Videos
+
+    .video-grid
+
+      each video in videos
+
+        .card
+
+          img.thumbnail(
+            src="/" + video.thumbnailPath
+            alt=video.title
+          )
+
+          h3= video.title
+
+          p Quality: #{video.quality}
+
+          a(href=`/watch/${video._id}`)
+            button Watch

@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title= video.title
+
+  body
+
+    h1= video.title
+
+    video(
+      width="800"
+      controls
+    )
+      source(
+        src="/" + video.videoPath
+        type="video/mp4"
+      )
+
+    p= video.description
+
+    p Quality: #{video.quality}
