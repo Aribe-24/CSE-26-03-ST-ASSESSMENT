@@ -119,6 +119,16 @@ html
                 )
 
                 br
+                .mb-3
+
+                    label.form-label Date
+
+                    input.form-control(
+                        type="Number"
+                        name="date"
+                        id="date"
+                        required
+                    )
                 br
 
                 button.btn.btn-danger(
@@ -132,67 +142,62 @@ html
                     | Reset
     
     //- validation
-    //- script.
+    script.
 
-    //- const form =
-    //- document.getElementById("videoForm");
 
-    //- form.addEventListener("submit", function(e){
 
-    //-     if(!form.checkValidity()){
+     const form = document.getElementById("videoForm");
 
-    //-         e.preventDefault();
+     form.addEventListener("submit", function(e){
 
-    //-         e.stopPropagation();
+        if(!form.checkValidity()){
 
-    //-     }
+             e.preventDefault();
 
-    //-     form.classList.add("was-validated");
+        }
 
-    //- });
+        form.classList.add("was-validated");
 
-    //- const videoInput =
-    //- document.getElementById("videoInput");
+     });
 
-    //- const videoPreview =
-    //- document.getElementById("videoPreview");
+     const videoInput = document.getElementById("videoInput");
 
-    //- videoInput.addEventListener("change", function(){
+     const videoPreview = document.getElementById("videoPreview");
 
-    //-     const file =
-    //-     this.files[0];
+     videoInput.addEventListener("change", function(){
 
-    //-     if(file){
+         const file = this.files[0];
 
-    //-         videoPreview.src =
-    //-         URL.createObjectURL(file);
+       if(file){
 
-    //-         videoPreview.style.display =
-    //-         "block";
+            videoPreview.src = URL.createObjectURL(file);
 
-    //-     }
+             videoPreview.style.display =
+            "block";
 
-    //- });
+        }
 
-    //- const thumbInput =
-    //- document.getElementById("thumbnailInput");
+     });
 
-    //- const thumbPreview =
-    //- document.getElementById("thumbnailPreview");
+     const thumbInput =
+     document.getElementById("thumbnailInput");
 
-    //- thumbInput.addEventListener("change", function(){
+    const thumbPreview =
+    document.getElementById("thumbnailPreview");
 
-    //-     const file =
-    //-     this.files[0];
+     thumbInput.addEventListener("change", function(){
 
-    //-     if(file){
+         const file =
+        this.files[0];
 
-    //-         thumbPreview.src =
-    //-         URL.createObjectURL(file);
+         if(file){
 
-    //-         thumbPreview.style.display =
-    //-         "block";
+             thumbPreview.src =
+            URL.createObjectURL(file);
 
-    //-     }
+             thumbPreview.style.display =
+             "block";
 
-    //- });
+     }
+
+     });
