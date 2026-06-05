@@ -10,7 +10,7 @@ html(lang="en")
 
       h1 Upload your video
       
-      //- 1. Added enctype="multipart/form-data" for file handling
+      //- 1. enctype="multipart/form-data" for file handling
       form#uploadForm(enctype="multipart/form-data")
         .form-left
           .field-group
@@ -33,7 +33,6 @@ html(lang="en")
         .form-right
           .upload-zone#videoZone
             p Upload video
-            //- 2. Added name="videoFile" to match Multer middleware
             input(type="file", id="videoInput", name="videoFile", style="display:none", accept="video/*")
             span.error-message#videoError Required field
           
@@ -68,13 +67,11 @@ html(lang="en")
 
         if (!isValid) return;
 
-        // 3. Use FormData instead of JSON to send files
         const formData = new FormData(this);
 
         const response = await fetch('/upload', {
           method: 'POST',
-          // Note: Do NOT set Content-Type header when using FormData; 
-          // browser sets it automatically with the correct boundary
+           // browser sets it automatically with the correct boundary
           body: formData
         });
 
