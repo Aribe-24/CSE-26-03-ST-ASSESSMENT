@@ -1,0 +1,105 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #0f0f0f; /* Dark background to make the video pop */
+  color: #f1f1f1;
+  line-height: 1.5;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #212121;
+  border-bottom: 1px solid #3d3d3d;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff0000; /* Crisp accent color for your brand */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-btn {
+  color: #aaaaaa;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+  color: #ffffff;
+}
+
+.watch-container {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.video-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.video-player {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Perfect wide screen scaling */
+  background-color: #000000;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  outline: none;
+}
+
+.video-info {
+  margin-top: 16px;
+  padding: 0 4px;
+}
+
+.video-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 28px;
+  margin-bottom: 8px;
+  word-wrap: break-word;
+}
+
+.video-stats {
+  font-size: 14px;
+  color: #aaaaaa;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #3d3d3d; /* Separator line below metadata */
+}
+
+.video-description {
+  font-size: 14px;
+  color: #f1f1f1;
+  background-color: #212121;
+  padding: 16px;
+  border-radius: 12px;
+  white-space: pre-wrap; /* Keeps line breaks from your database description formatting */
+  word-break: break-word;
+}
