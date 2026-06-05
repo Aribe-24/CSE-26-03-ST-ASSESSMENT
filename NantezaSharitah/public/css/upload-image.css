@@ -125,3 +125,30 @@ body {
     color: #e53935; /* Text changes to red on hover */
     border: 2px solid #e53935; /* Adds red border on hover */
 }
+
+
+/* 1. Hide error warning messages completely by default */
+.error-msg {
+    display: none;
+    color: #ff0000;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    text-align: left;
+}
+
+/* 2. Turn input fields red ONLY after clicking submit */
+.was-submitted .input-field:invalid {
+    border: 2px solid #ff0000 !important;
+    background-color: #fff5f5;
+}
+
+/* 3. Reveal the warning text message ONLY after clicking submit */
+.was-submitted .input-field:invalid + .error-msg {
+    display: block;
+}
+
+/* 4. Turn file boxes red ONLY if files are missing after clicking submit */
+.was-submitted .dropzone:has(input:invalid) {
+    border: 2px dashed #ff0000 !important;
+    background-color: #fff5f5;
+}

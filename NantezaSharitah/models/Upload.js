@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const passportLocalMongoose = require('passport-local-mongoose').default || require('passport-local-mongoose');
 
 const uploadSchema = new mongoose.Schema({
     title: {    
@@ -10,7 +9,11 @@ const uploadSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
+    video: {
+        type: String,
+        required: true
+    },
+    thumbnail: {
         type: String,
         required: true
     }

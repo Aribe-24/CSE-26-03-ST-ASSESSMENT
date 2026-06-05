@@ -1,75 +1,53 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 const User = require("../models/Upload");
 
-//Join
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+//Join page
 router.get("/join", (req, res) => {
   res.render("index");
 });
-// router.post(
-//   "/login",
-//   passport.authenticate("local", {
-//     successRedirect: "/dashboard",
-//     failureRedirect: "/login",
-//   }),
-//   (req, res) => {
-//     res.redirect("/dashboard");
-//   },
-// );
 
 // The Dashboard
 router.get("/dashboard", (req, res) => {
   res.render("dashboard");
 });
 
-//Image upload
+//Video upload
 router.get("/upload", (req, res) => {
-  res.render("image");
+  res.render("video");
 });
-router.post("/upload", async (req, res) => {
-  try {
-    const { title, description } = req.body;
-    const image = req.file ? req.file.filename : null;
+router.post("/upload", upload.single("video"), (req, res) => {
+  const { title, description,quality, } = req.body;
+  const videoPath = req.file ? req.file.path : null;
 
-    const newUpload = new User({
-      title,
-      description,
-      image,
-    });
-
-    await newUpload.save();
-
-    res.redirect("/dashboard");
-  } catch (error) {
-    console.error(error);
-    res.render("image");
+  if (!title || !description || !videoPath) {
+    return res.status(400).send("All fields are required.");
   }
+
+  const newUpload = new User({
+    title,
+    description,
+    quality,
+    thumbnail, // Placeholder for thumbnail path
+    video: videoPath,
+  });
+
+  newUpload
+    .save()
+    .then(() => res.redirect("/dashboard"))
+    .catch((err) => res.status(500).send("Error uploading video."));
 });
-// router.post("/addblog", isAuthenticated, async (req, res) => {
-//   try {
-//     const { title, description } = req.body;
-
-//     const newBlog = new Blog({
-//       title,
-//       description,
-//       author: req.user._id,
-//     });
-
-//     console.log(newBlog);
-
-//     await newBlog.save();
-
-//     res.redirect("/dashboard");
-//   } catch (error) {
-//     console.error(error);
-//     res.render("editor");
-//   }
-// });
-
-// // Registration form
-// router.get("/register", (req, res) => {
-//   res.render("registration");
-// });
-// //
 module.exports = router;
