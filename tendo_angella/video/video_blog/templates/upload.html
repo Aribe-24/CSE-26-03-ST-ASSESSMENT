@@ -1,0 +1,198 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Your Video</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        body { background-color: #f8f9fa; font-family: sans-serif; }
+        .upload-container { max-width: 900px; margin: 50px auto; background: white; padding: 30px; border-radius: 8px; }
+        
+        /* Grid structure matching design specs */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        
+        /* Django Error Validation States */
+        .is-invalid, .is-invalid:focus {
+            border: 2px solid #ff0000 !important;
+            background-color: #fff8f8 !important;
+            box-shadow: none !important;
+        }
+        .invalid-feedback, .invalid-feedback strong {
+            color: #ff0000 !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            margin-top: 4px !important;
+            display: block !important;
+        }
+        .invalid-feedback ul { display: none !important; }
+
+        .alert-success-custom {
+            background-color: #24b14b !important;
+            color: #ffffff !important;
+            font-weight: 500;
+            border: none !important;
+            border-radius: 4px;
+            padding: 10px 15px;
+        }
+
+        /* --- Interactive Upload Box Base Layout --- */
+        .custom-upload-box, .preview-container-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+        }
+
+        /* Clickable Labels */
+        .clickable-label {
+            cursor: pointer;
+            width: 100%;
+            display: block;
+        }
+
+        /* Solid Grey Video Block */
+        .video-box-style {
+            background-color: #cccccc !important;
+            color: #777777;
+            border: 2px solid transparent;
+        }
+        .video-box-style:hover { background-color: #c2c2c2 !important; }
+
+        /* Dashed Border Thumbnail Block */
+        .thumbnail-box-style {
+            background-color: #ffffff !important;
+            color: #999999;
+            border: 2px dashed #cccccc !important;
+        }
+        .thumbnail-box-style:hover { border-color: #999999 !important; }
+
+        .custom-upload-box i { font-size: 42px; margin-bottom: 8px; opacity: 0.7; }
+        .custom-upload-box span { font-size: 14px; font-weight: 500; }
+        .box-error-state { border: 2px solid #ff0000 !important; background-color: #fff8f8 !important; }
+
+        /* --- Preview Media Overlays --- */
+        .preview-media {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            object-fit: cover;
+            background-color: #000000;
+        }
+
+        /* Submit Action Button styling */
+        .btn-upload {
+            background-color: #ff0000;
+            color: #ffffff;
+            border: 2px solid #ff0000;
+            font-weight: bold;
+            width: 100%;
+            padding: 12px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-upload:hover {
+            background-color: #ffffff !important; 
+            color: #ff0000 !important; 
+            border-color: #ff0000 !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="upload-container shadow-sm">
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success-custom d-flex justify-content-between align-items-center mb-4" role="alert">
+                    <span>{{ message }}</span>
+                    <button type="button" class="btn-close btn-close-white small" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <h2 class="mb-4 fw-bold">Upload your video</h2>
+        
+        <form method="post" enctype="multipart/form-data" id="videoForm" novalidate>
+            {% csrf_token %}
+            
+            <div class="form-grid">
+                <div class="left-column">
+                    {{ form.title|as_crispy_field }}
+                    {{ form.description|as_crispy_field }}
+                    {{ form.video_quality|as_crispy_field }}
+                    {{ form.date_of_publishing|as_crispy_field }}
+                </div>
+                
+                <div class="right-column d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-none">
+                            {{ form.video_file }}
+                            {{ form.thumbnail }}
+                        </div>
+
+                        <label class="form-label fw-bold mb-2">Video file*</label>
+                        
+                        {% if form.instance.video_file %}
+                            <div class="preview-container-box">
+                                <video class="preview-media" controls>
+                                    <source src="{{ form.instance.video_file.url }}" type="video/mp4">
+                                </video>
+                            </div>
+                        {% else %}
+                            <label for="{{ form.video_file.id_for_label }}" class="clickable-label">
+                                <div class="custom-upload-box video-box-style {% if form.video_file.errors %}box-error-state{% endif %}">
+                                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                                    <span>Upload video</span>
+                                </div>
+                            </label>
+                        {% endif %}
+                        
+                        {% if form.video_file.errors %}
+                            <div class="invalid-feedback">{{ form.video_file.errors.0 }}</div>
+                        {% endif %}
+
+                        <div class="mb-4"></div>
+
+                        <label class="form-label fw-bold mb-2">Thumbnail*</label>
+                        
+                        {% if form.instance.thumbnail %}
+                            <div class="preview-container-box">
+                                <img src="{{ form.instance.thumbnail.url }}" class="preview-media" alt="Thumbnail Preview">
+                            </div>
+                        {% else %}
+                            <label for="{{ form.thumbnail.id_for_label }}" class="clickable-label">
+                                <div class="custom-upload-box thumbnail-box-style {% if form.thumbnail.errors %}box-error-state{% endif %}">
+                                    <i class="bi bi-cloud-arrow-up"></i>
+                                    <span>Upload Thumbnail</span>
+                                </div>
+                            </label>
+                        {% endif %}
+                        
+                        {% if form.thumbnail.errors %}
+                            <div class="invalid-feedback">{{ form.thumbnail.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-upload">Upload</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
