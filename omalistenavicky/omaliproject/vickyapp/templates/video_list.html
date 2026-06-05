@@ -35,7 +35,7 @@
   {% if videos %}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
     {% for video in videos %}
-    <a href="/video.html" class="block group">
+    <a href="{% url 'video_detail' video.pk %}" class="block group">
       <!-- Thumbnail -->
       <div class="w-full aspect-video rounded-lg overflow-hidden bg-gray-200 mb-2 relative">
         {% if video.thumbnail %}
