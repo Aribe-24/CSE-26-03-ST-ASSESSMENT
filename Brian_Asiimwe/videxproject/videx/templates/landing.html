@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="landing-page">
+    <div class="landing-content">
+
+        <img src="{% static 'images/logo.png' %}" alt="Videx Logo" class="landing-logo">
+
+        <a href="{% url 'video_list' %}" class="join-btn">
+            JOIN
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}
