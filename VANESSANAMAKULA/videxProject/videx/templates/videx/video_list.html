@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Videx - Videos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --red: #ff0000; --red-dark: #cc0000; --ink: #1e2430; --muted: #7d8490;
+      --line: #e6e9ef; --field: #f7f8fb; --soft: #f1f4f8; --success: #16804a; --danger: #d82f3a;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: var(--ink); background: #fafafa; font-family: "Trebuchet MS", Arial, sans-serif; }
+    a { color: inherit; text-decoration: none; }
+    .brand { display: inline-flex; align-items: center; gap: 14px; color: var(--red); font-size: 44px; font-weight: bold; }
+    .brand-icon { width: 42px; height: 42px; display: inline-grid; place-items: center; border-radius: 50%; color: #fff; background: var(--red); font-size: 18px; line-height: 1; }
+    .primary-button { min-height: 48px; border: 2px solid var(--red); border-radius: 4px; padding: 0 28px; display: inline-grid; place-items: center; color: #fff; background: var(--red); font-size: 14px; font-weight: 800; cursor: pointer; transition: background .18s ease; text-decoration: none; }
+    .primary-button:hover { background: var(--red-dark); border-color: var(--red-dark); }
+    .primary-button:active { background: #fff; color: var(--red); }
+    .page-shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 48px 0; }
+    .topbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 34px; border-bottom: 1px solid var(--line); padding-bottom: 18px; }
+    h1 { margin: 18px 0 0; font-size: 26px; line-height: 1.2; }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 34px 28px; }
+    .video-card { min-width: 0; }
+    .thumb-link { position: relative; display: block; aspect-ratio: 16/9; overflow: hidden; border-radius: 4px; background: var(--soft); }
+    .thumbnail { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .play-pill { position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: var(--red); }
+    .video-info { display: grid; grid-template-columns: minmax(0, 1fr) 28px; gap: 8px; align-items: start; margin-top: 12px; }
+    .video-info h2 { margin: 0; font-size: 16px; line-height: 1.32; }
+    .menu-button { width: 28px; height: 28px; border: 0; background: transparent; color: #858b95; font-size: 22px; cursor: pointer; }
+    .meta { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+    .empty-state { min-height: 380px; display: grid; place-items: center; align-content: center; gap: 12px; text-align: center; }
+    .empty-state h2, .empty-state p { margin: 0; }
+    .empty-state p { color: var(--muted); }
+  </style>
+</head>
+<body>
+<div class="page-shell">
+  <div class="topbar">
+    <a href="{% url 'landing' %}" class="brand">
+      <span class="brand-icon"><i class="fa-solid fa-play"></i></span>
+      Videx
+    </a>
+    <a href="{% url 'upload_video' %}" class="primary-button">Add Video</a>
+  </div>
+  <h1>Videos</h1>
+  {% if videos %}
+  <div class="video-grid" style="margin-top:28px;">
+    {% for video in videos %}
+    <div class="video-card">
+      <a href="{% url 'watch_video' video.pk %}" class="thumb-link">
+        {% if video.thumbnail %}
+          <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="thumbnail"/>
+        {% endif %}
+        <span class="play-pill"><i class="fa-solid fa-play" style="font-size:16px;"></i></span>
+      </a>
+      <div class="video-info">
+        <div>
+          <h2>{{ video.title }}</h2>
+          <p class="meta">{{ video.views }} views &nbsp;·&nbsp; {{ video.uploaded_at|timesince }} ago</p>
+        </div>
+        <button class="menu-button">⋮</button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h2>No videos yet</h2>
+    <p>Be the first to <a href="{% url 'upload_video' %}" style="color:var(--red);">add a video</a></p>
+  </div>
+  {% endif %}
+</div>
+</body>
+</html>

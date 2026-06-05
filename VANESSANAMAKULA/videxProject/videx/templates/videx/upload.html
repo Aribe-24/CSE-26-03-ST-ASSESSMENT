@@ -1,0 +1,471 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Videx - Upload</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root {
+      --red: #ff0000;
+      --red-dark: #cc0000;
+      --ink: #1e2430;
+      --muted: #7d8490;
+      --line: #e6e9ef;
+      --field: #f7f8fb;
+      --soft: #f1f4f8;
+      --success: #16804a;
+      --danger: #d82f3a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: #fbfaf8;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .upload-shell {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 38px 20px;
+      background: #fbfaf8;
+    }
+
+    .upload-panel {
+      width: min(900px, 100%);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 370px);
+      gap: 36px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      padding: 20px 20px 0;
+    }
+
+    .upload-panel h1 {
+      margin: 0 0 22px;
+      font-size: 26px;
+    }
+
+    .success-message {
+      margin: 0 0 14px;
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--ink);
+      font: inherit;
+      min-height: 52px;
+      padding: 0 14px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--ink);
+      opacity: 0.7;
+    }
+
+    .field textarea {
+      min-height: 170px;
+      padding-top: 14px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: #b8c1d1;
+      background: #fff;
+    }
+
+    .field.is-invalid input,
+    .field.is-invalid textarea,
+    .field.is-invalid select,
+    .field.is-invalid .upload-dropzone {
+      border-color: var(--danger);
+    }
+
+    .field-error {
+      min-height: 18px;
+      display: block;
+      margin-top: 6px;
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .upload-dropzone {
+      position: relative;
+      height: 170px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 6px;
+      overflow: hidden;
+      background: #e9edf5;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .thumbnail-dropzone {
+      height: 145px;
+      background: #f7f4e6;
+    }
+
+    .upload-dropzone input[type="file"] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .upload-icon {
+      font-size: 36px;
+      line-height: 1;
+      color: #9aa3b0;
+    }
+
+    .upload-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      opacity: 0.7;
+    }
+
+    #video-preview {
+      display: none;
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    #thumb-preview {
+      display: none;
+      width: 100%;
+      height: 145px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .primary-button {
+      width: 100%;
+      min-height: 52px;
+      border: 2px solid var(--red);
+      border-radius: 4px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--red);
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.18s ease;
+      letter-spacing: 1px;
+    }
+
+    .primary-button:hover {
+      background: var(--red-dark);
+      border-color: var(--red-dark);
+    }
+
+    .primary-button:active {
+      background: #fff;
+      color: var(--red);
+    }
+
+    select {
+      cursor: pointer;
+      color: var(--ink);
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="{% url 'video_list' %}" class="back-link">Back</a>
+
+  <div class="upload-shell">
+    <div class="upload-panel">
+
+      <!-- Left side -->
+      <div class="form-column">
+
+        <h1>Upload your video</h1>
+
+        {% if success %}
+        <p class="success-message">Video added successfully!</p>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data" novalidate id="upload-form">
+
+          {% csrf_token %}
+
+          <!-- Title -->
+          <div class="field {% if form.title.errors %}is-invalid{% endif %}">
+            <input
+              type="text"
+              name="title"
+              placeholder="Video Title"
+              value="{{ form.title.value|default:'' }}"
+              id="id_title"
+            />
+
+            <span class="field-error" id="title-error">
+              {% if form.title.errors %}Required field{% endif %}
+            </span>
+          </div>
+
+          <!-- Description -->
+          <div class="field">
+            <textarea
+              name="description"
+              placeholder="Description (Optional)"
+              id="id_description"
+            >{{ form.description.value|default:'' }}</textarea>
+          </div>
+
+          <!-- Quality -->
+          <div class="field {% if form.quality.errors %}is-invalid{% endif %}">
+            <select name="quality" id="id_quality">
+              <option value="">Video quality</option>
+
+              <option value="360p"
+                {% if form.quality.value == '360p' %}selected{% endif %}>
+                360p
+              </option>
+
+              <option value="720p"
+                {% if form.quality.value == '720p' %}selected{% endif %}>
+                720p
+              </option>
+
+              <option value="1080p"
+                {% if form.quality.value == '1080p' %}selected{% endif %}>
+                1080p
+              </option>
+            </select>
+
+            <span class="field-error" id="quality-error">
+              {% if form.quality.errors %}Required field{% endif %}
+            </span>
+          </div>
+
+          <!-- Date -->
+          <div class="field {% if form.date_of_publishing.errors %}is-invalid{% endif %}">
+            <input
+              type="date"
+              name="date_of_publishing"
+              value="{{ form.date_of_publishing.value|default:'' }}"
+              id="id_date"
+            />
+
+            <span class="field-error" id="date-error">
+              {% if form.date_of_publishing.errors %}Required field{% endif %}
+            </span>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="primary-button desktop-submit">
+            UPLOAD
+          </button>
+
+        </form>
+      </div>
+
+      <!-- Right side -->
+      <div class="media-column">
+
+        <!-- Video Upload -->
+        <div class="field {% if form.video_file.errors %}is-invalid{% endif %}">
+
+          <div
+            class="upload-dropzone"
+            id="video-box"
+            onclick="document.getElementById('id_video_file').click()"
+          >
+
+            <video id="video-preview" controls></video>
+
+            <div id="video-placeholder">
+              <div class="upload-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+              </div>
+
+              <div class="upload-text">
+                Upload video
+              </div>
+            </div>
+
+            <input
+              type="file"
+              name="video_file"
+              accept="video/*"
+              id="id_video_file"
+              form="upload-form"
+              onclick="event.stopPropagation()"
+            />
+          </div>
+
+          <span class="field-error" id="video-error">
+            {% if form.video_file.errors %}Required field{% endif %}
+          </span>
+        </div>
+
+        <!-- Thumbnail Upload -->
+        <div class="field">
+
+          <div
+            class="upload-dropzone thumbnail-dropzone"
+            id="thumb-box"
+            onclick="document.getElementById('id_thumbnail').click()"
+          >
+
+            <img id="thumb-preview" alt="Thumbnail"/>
+
+            <div id="thumb-placeholder">
+
+              <div class="upload-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+              </div>
+
+              <div class="upload-text">
+                Upload Thumbnail
+              </div>
+
+            </div>
+
+            <input
+              type="file"
+              name="thumbnail"
+              accept="image/*"
+              id="id_thumbnail"
+              form="upload-form"
+              onclick="event.stopPropagation()"
+            />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    // Video preview
+    document.getElementById('id_video_file').addEventListener('change', function() {
+
+      const file = this.files[0];
+
+      if (!file) return;
+
+      const preview = document.getElementById('video-preview');
+
+      preview.src = URL.createObjectURL(file);
+
+      preview.style.display = 'block';
+
+      document.getElementById('video-placeholder').style.display = 'none';
+
+      document.getElementById('video-box').classList.remove('is-invalid');
+
+      document.getElementById('video-error').textContent = '';
+    });
+
+    // Thumbnail preview
+    document.getElementById('id_thumbnail').addEventListener('change', function() {
+
+      const file = this.files[0];
+
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+
+        const preview = document.getElementById('thumb-preview');
+
+        preview.src = e.target.result;
+
+        preview.style.display = 'block';
+
+        document.getElementById('thumb-placeholder').style.display = 'none';
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    // Remove validation errors instantly
+    ['id_title', 'id_quality', 'id_date'].forEach(function(id) {
+
+      const errorMap = {
+        id_title: 'title-error',
+        id_quality: 'quality-error',
+        id_date: 'date-error'
+      };
+
+      ['input', 'change'].forEach(function(evt) {
+
+        const element = document.getElementById(id);
+
+        if (element) {
+
+          element.addEventListener(evt, function() {
+
+            if (this.value) {
+
+              const field = this.closest('.field');
+
+              if (field) {
+                field.classList.remove('is-invalid');
+              }
+
+              const errorSpan = document.getElementById(errorMap[id]);
+
+              if (errorSpan) {
+                errorSpan.textContent = '';
+              }
+            }
+          });
+        }
+      });
+    });
+
+  </script>
+
+</body>
+</html>
+```
