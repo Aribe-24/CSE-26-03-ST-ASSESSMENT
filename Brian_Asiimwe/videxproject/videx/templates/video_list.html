@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="video-page">
+
+    <div class="video-header">
+        <img src="{% static 'images/logo.png' %}" alt="Videx Logo" class="header-logo">
+
+        <a href="{% url 'add_video' %}" class="add-video-btn">
+            Add Video
+        </a>
+    </div>
+
+    <h2 class="video-heading">Videos</h2>
+
+    <div class="video-line"></div>
+
+    <div class="video-grid">
+
+        {% for video in videos %}
+
+        <div class="video-card">
+
+            <a href="{% url 'watch_video' video.id %}">
+                <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="video-thumbnail">
+            </a>
+
+            <div class="video-details">
+
+                <div class="video-title-row">
+                    <h5>
+                        <a href="{% url 'watch_video' video.id %}" class="video-title-link">
+                            {{ video.title|truncatechars:65 }}
+                        </a>
+                    </h5>
+
+                    <span class="video-menu">⋮</span>
+                </div>
+
+                <p class="video-meta">
+                    {{ video.views }} views . {{ video.publishing_date }}
+                </p>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty-state">
+            <p>No videos uploaded yet.</p>
+            <a href="{% url 'add_video' %}" class="add-video-btn">Add First Video</a>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
