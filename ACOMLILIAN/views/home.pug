@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Videx
+    link(rel="stylesheet" href="/css/home.css")
+  body
+    .container
+      .logo
+        .icon ▶
+        | Videx
+      // Ensure the ID here matches the one in your script
+      button#join-btn JOIN
+
+    script.
+      // Redirect to the upload form when JOIN is clicked
+      document.getElementById('join-btn').addEventListener('click', function() {
+        window.location.href = '/upload';
+      });
