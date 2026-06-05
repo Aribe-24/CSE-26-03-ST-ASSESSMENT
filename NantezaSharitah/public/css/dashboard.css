@@ -1,0 +1,148 @@
+/* --- Global Resets --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    color: #333333;
+}
+
+/* --- Header Styling --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.add-video-btn {
+    padding: 10px 24px;
+    background-color: transparent;
+    border: 2px solid #d9534f;
+    border-radius: 6px;
+    color: #d9534f;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.add-video-btn:hover {
+    background-color: #d9534f;
+    color: #ffffff;
+}
+
+/* --- Main Layout --- */
+.container {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #222;
+}
+
+/* --- Responsive Video Grid --- */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Exactly 4 columns across */
+    gap: 30px 20px; /* Row gap and Column gap */
+}
+
+/* Responsive breakdowns if screens get narrow */
+@media (max-width: 1024px) {
+    .video-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+    .video-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+    .video-grid { grid-template-columns: 1fr; }
+}
+
+/* --- Video Cards --- */
+.video-card {
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+}
+
+.thumbnail {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Creates perfect video aspect ratios */
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+/* Exact UI Match Colors */
+.thumb-red      { background-color: #e74c3c; }
+.thumb-blue     { background-color: #5dade2; }
+.thumb-burgundy { background-color: #922b21; }
+.thumb-navy     { background-color: #1a252f; }
+.thumb-purple   { background-color: #7d3c98; }
+.thumb-yellow   { background-color: #f4d03f; }
+.thumb-teal     { background-color: #2980b9; }
+.thumb-green    { background-color: #27ae60; }
+
+/* Card Content Details */
+.video-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.video-card h3 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: #111111;
+    /* Limit lines to prevent text blowouts */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: #888888;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding-top: 2px;
+}
+
+.menu-btn:hover {
+    color: #111111;
+}
+
+.meta {
+    font-size: 0.85rem;
+    color: #777777;
+    margin-top: 5px;
+}
