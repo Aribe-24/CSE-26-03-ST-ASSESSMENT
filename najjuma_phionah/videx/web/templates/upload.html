@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<main class="upload-shell">
+    <form method="post" enctype="multipart/form-data" class="upload-panel upload-form" novalidate>
+        {% csrf_token %}
+
+        <div class="form-column">
+            <a class="back-link" href="{% url 'video_list' %}"><i class="fa-solid fa-arrow-left"></i> Videos</a>
+            <h1>Upload your video</h1>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="success-message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <div class="field {% if form.title.errors %}has-error{% endif %}">
+                {{ form.title|as_crispy_field }}
+                <p class="field-error">{{ form.title.errors|striptags }}</p>
+            </div>
+
+            <div class="field {% if form.description.errors %}has-error{% endif %}">
+                {{ form.description|as_crispy_field }}
+                <p class="field-error">{{ form.description.errors|striptags }}</p>
+            </div>
+
+            <div class="field {% if form.quality.errors %}has-error{% endif %}">
+                {{ form.quality|as_crispy_field }}
+                <p class="field-error">{{ form.quality.errors|striptags }}</p>
+            </div>
+
+            <div class="field {% if form.publishing_date.errors %}has-error{% endif %}">
+                {{ form.publishing_date|as_crispy_field }}
+                <p class="field-error">{{ form.publishing_date.errors|striptags }}</p>
+            </div>
+
+            <button class="primary-button upload-submit mobile-submit" type="submit">UPLOAD</button>
+        </div>
+
+        <div class="media-column">
+            <div class="field file-box {% if form.video_file.errors %}has-error{% endif %}">
+                <label class="upload-box">
+                    {{ form.video_file }}
+                    <span class="upload-icon"><i class="fa-solid fa-arrow-up"></i></span>
+                    <span>Upload video</span>
+                </label>
+                <p class="field-error">{{ form.video_file.errors|striptags }}</p>
+            </div>
+
+            <div class="field file-box thumbnail-box {% if form.thumbnail.errors %}has-error{% endif %}">
+                <label class="upload-box">
+                    {{ form.thumbnail }}
+                    <span class="upload-icon"><i class="fa-solid fa-arrow-up"></i></span>
+                    <span>Upload Thumbnail</span>
+                </label>
+                <p class="field-error">{{ form.thumbnail.errors|striptags }}</p>
+            </div>
+
+            <button class="primary-button upload-submit desktop-submit" type="submit">UPLOAD</button>
+        </div>
+    </form>
+</main>
+{% endblock %}
