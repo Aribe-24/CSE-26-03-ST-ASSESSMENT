@@ -1,0 +1,89 @@
+doctype html
+html(lang="en")
+  head
+    title Upload Video
+    link(rel="stylesheet", href="/css/uploads.css")
+  body
+    .container
+      //- Success message banner
+      #successBanner(style="display:none") Upload Successful! Redirecting...
+
+      h1 Upload your video
+      
+      //- 1. enctype="multipart/form-data" for file handling
+      form#uploadForm(enctype="multipart/form-data")
+        .form-left
+          .field-group
+            input(type="text", id="videoTitle", name="title", placeholder="Video Title")
+            span.error-message#titleError Required field
+
+          textarea(id="description", name="description", placeholder="Description (Optional)")
+
+          .field-group
+            select(id="videoQuality", name="quality")
+              option(value="", disabled, selected) Video quality
+              option(value="1080") 1080p
+              option(value="720") 720p
+            span.error-message#qualityError Required field
+
+          .field-group
+            input(type="date", id="publishDate", name="publishDate")
+            span.error-message#dateError Required field
+
+        .form-right
+          .upload-zone#videoZone
+            p Upload video
+            input(type="file", id="videoInput", name="videoFile", style="display:none", accept="video/*")
+            span.error-message#videoError Required field
+          
+          .upload-zone#thumbZone
+            p Upload Thumbnail
+            input(type="file", id="thumbInput", name="thumbnail", style="display:none", accept="image/*")
+
+          button(type="submit", id="uploadBtn") UPLOAD
+
+    script.
+      // Trigger file inputs
+      document.getElementById('videoZone').addEventListener('click', () => document.getElementById('videoInput').click());
+      document.getElementById('thumbZone').addEventListener('click', () => document.getElementById('thumbInput').click());
+
+      document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+        document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+
+        // Simple Validation
+        let isValid = true;
+        if (!document.getElementById('videoTitle').value) {
+          document.getElementById('titleError').style.display = 'block';
+          isValid = false;
+        }
+        if (document.getElementById('videoInput').files.length === 0) {
+          document.getElementById('videoZone').classList.add('error');
+          document.getElementById('videoError').style.display = 'block';
+          isValid = false;
+        }
+
+        if (!isValid) return;
+
+        const formData = new FormData(this);
+
+        const response = await fetch('/upload', {
+          method: 'POST',
+           // browser sets it automatically with the correct boundary
+          body: formData
+        });
+
+        if (response.ok) {
+          const banner = document.getElementById('successBanner');
+          banner.style.display = 'block';
+          document.getElementById('uploadBtn').disabled = true;
+          
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000);
+        } else {
+          alert("Upload Failed. Please try again.");
+        }
+      });

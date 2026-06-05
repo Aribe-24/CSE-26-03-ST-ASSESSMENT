@@ -1,0 +1,31 @@
+{
+  "name": "nansubugamarie",
+  "version": "1.0.0",
+  "description": "Video streaming app",
+  "keywords": [
+    "video"
+  ],
+  "homepage": "https://github.com/angellamarie-debug/CSE-26-03-ST-ASSESSMENT#readme",
+  "bugs": {
+    "url": "https://github.com/angellamarie-debug/CSE-26-03-ST-ASSESSMENT/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angellamarie-debug/CSE-26-03-ST-ASSESSMENT.git"
+  },
+  "license": "ISC",
+  "author": "NANSUBUGA MARIE",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "video",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mongoose": "^9.6.3",
+    "multer": "^2.1.1",
+    "pug": "^3.0.4"
+  }
+}

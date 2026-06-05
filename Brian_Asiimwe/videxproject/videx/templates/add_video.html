@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="upload-page">
+
+```
+<div class="upload-header">
+    <img src="{% static 'images/logo.png' %}" alt="Videx Logo" class="header-logo">
+    <a href="{% url 'video_list' %}" class="back-btn">Back</a>
+</div>
+
+<div class="upload-wrapper">
+
+    <h1 class="upload-heading">Upload your video</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="success-message">
+                <span>{{ message }}</span>
+                <span>x</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" class="upload-form">
+        {% csrf_token %}
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <input type="text" name="title" class="form-control videx-input if{% if errors.title %} is-invalid{% endif %}" placeholder="Video Title" value="{{ form_data.title }}">
+                    {% if errors.title %}<small class="error-text">{{ errors.title }}</small>{% endif %}
+                </div>
+
+                <div class="form-group">
+                    <textarea name="description" class="form-control videx-textarea {% if errors.description %}is-invalid{% endif %}" placeholder="Description">{{ form_data.description }}</textarea>
+                    {% if errors.description %}<small class="error-text">{{ errors.description }}</small>{% endif %}
+                </div>
+
+                <div class="form-group">
+                    <select name="quality" class="videx-select {% if errors.quality %}is-invalid{% endif %}">
+                        <option value="">Video quality</option>
+                        <option value="360p" {% if form_data.quality == "360p" %}selected{% endif %}>360p</option>
+                        <option value="720p" {% if form_data.quality == "720p" %}selected{% endif %}>720p</option>
+                        <option value="1080p" {% if form_data.quality == "1080p" %}selected{% endif %}>1080p</option>
+                        <option value="4K" {% if form_data.quality == "4K" %}selected{% endif %}>4K</option>
+                    </select>
+                    {% if errors.quality %}<small class="error-text">{{ errors.quality }}</small>{% endif %}
+                </div>
+
+                <div class="form-group">
+                    <input type="date" name="publishing_date" class="form-control videx-input {% if errors.publishing_date %}is-invalid{% endif %}" value="{{ form_data.publishing_date }}">
+                    {% if errors.publishing_date %}<small class="error-text">{{ errors.publishing_date }}</small>{% endif %}
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label class="video-upload-box {% if errors.video_file %}is-invalid{% endif %}">
+                        <i class="bi bi-cloud-arrow-up upload-icon"></i>
+                        <span>Upload video</span>
+                        <input type="file" name="video_file" accept="video/*" hidden>
+                    </label>
+                    {% if errors.video_file %}<small class="error-text">{{ errors.video_file }}</small>{% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label class="thumbnail-upload-box {% if errors.thumbnail %}is-invalid{% endif %}">
+                        <i class="bi bi-cloud-arrow-up upload-icon"></i>
+                        <span>Upload Thumbnail</span>
+                        <input type="file" name="thumbnail" accept="image/*" hidden>
+                    </label>
+                    {% if errors.thumbnail %}<small class="error-text">{{ errors.thumbnail }}</small>{% endif %}
+                </div>
+
+                <button type="submit" class="upload-btn">
+                    UPLOAD
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+```
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+doctype html
+html(lang="en")
+  head
+    title Videx Dashboard
+    link(rel="stylesheet", href="/css/videos.css")
+  body
+    .nav-bar
+      h1.logo Videx
+      button(id="addVideoBtn", class="add-btn") Add Video
+    
+    .container
+      h2 Videos
+      .video-grid
+        if videos && videos.length > 0
+          each video in videos
+            .video-card
+              .thumbnail(style=`background-color: ${video.color || '#ccc'}`)
+              .info
+                h3= video.title
+                p.meta= `${video.views || 0} views . ${video.time || 'N/A'}`
+        else
+          p No videos found.
+
+    script.
+      document.getElementById('addVideoBtn').addEventListener('click', function() {
+        window.location.href = '/upload';
+      });

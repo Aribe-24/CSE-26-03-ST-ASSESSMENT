@@ -1,0 +1,27 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Watch: #{video.title}
+  link(href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap' rel='stylesheet')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
+  link(rel='stylesheet' href='/css/watch.css')
+header.header
+  .logo
+    i.fas.fa-play-circle
+    |  Videx
+  a.back-btn(href='/video')
+    i.fas.fa-arrow-left
+    |  Back
+main.watch-container
+  .video-section
+    video.video-player(controls)
+      source(src=video.videoUrl type='video/mp4')
+      Your browser does not support the video tag.
+    .video-info
+      h1.video-title #{video.title}
+      .video-stats
+        span #{video.views.toLocaleString()} views
+        span &middot;
+        span #{new Date(video.createdAt).toLocaleDateString()}
+      p.video-description #{video.description || 'No description provided'}

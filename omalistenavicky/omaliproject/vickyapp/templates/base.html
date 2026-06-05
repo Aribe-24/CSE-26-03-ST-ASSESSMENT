@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Videx</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .videx-red { color: #FF0000; }
+    .bg-videx-red { background-color: #FF0000; }
+    .border-videx-red { border-color: #FF0000; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  {% block navbar %}{% endblock %}
+  {% block content %}{% endblock %}
+
+  <!-- Initialize Lucide Icons -->
+  <script>lucide.createIcons();</script>
+</body>
+</html>

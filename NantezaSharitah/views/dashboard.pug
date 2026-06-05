@@ -1,0 +1,84 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Videx - Dashboard
+  link(href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap' rel='stylesheet')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
+  link(rel='stylesheet' href='/css/dashboard.css')
+header.navbar
+  .logo
+    i.fas.fa-play-circle
+    span Videx
+  a(href='/upload')
+    button.add-video-btn Add Video
+main.container
+  h2.section-title Videos
+  section.video-grid
+    article.video-card
+      .thumbnail.thumb-red
+      .video-info
+        .title-row
+          h3 Arsenal wins the premier league after 22 years.
+          button.menu-btn
+            i.fas.fa-ellipsis-v
+        p.meta 999k views &bull; 2 weeks ago
+    article.video-card
+      .thumbnail.thumb-blue
+      .video-info
+        .title-row
+          h3
+            | Manchester City lost its 2
+            sup nd
+            |  Consecutive premier league title
+          button.menu-btn
+            i.fas.fa-ellipsis-v
+        p.meta 999k views &bull; 2 weeks ago
+    article.video-card
+      .thumbnail.thumb-burgundy
+      .video-info
+        .title-row
+          h3 Manchester United fun faints after Arsenal was declared winners of ...
+          button.menu-btn
+            i.fas.fa-ellipsis-v
+        p.meta 999k views &bull; 2 weeks ago
+    article.video-card
+      .thumbnail.thumb-navy
+      .video-info
+        .title-row
+          h3 UCL 2026 Finals referee to be investigated over bribery alegati...
+          button.menu-btn
+            i.fas.fa-ellipsis-v
+        p.meta 999k views &bull; 6 days ago
+    article.video-card
+      .thumbnail.thumb-purple
+      .video-info
+        .title-row
+          h3 Refactory launches an AI powered Job board
+          button.menu-btn
+            i.fas.fa-ellipsis-v
+        p.meta 999k views &bull; 3 months ago
+    article.video-card
+      .thumbnail.thumb-yellow
+      .video-info
+        .title-row
+          h3 Who won the Spelling Bee 2026 finals?
+          button.menu-btn
+            i.fas.fa-ellipsis-v
+        p.meta 999k views &bull; 2 weeks ago
+    article.video-card
+      .thumbnail.thumb-teal
+      .video-info
+        .title-row
+          h3 Learn Python programming with Jajja Ozzy.
+          button.menu-btn
+            i.fas.fa-ellipsis-v
+        p.meta 999k views &bull; 6 years ago
+    article.video-card
+      .thumbnail.thumb-green
+      .video-info
+        .title-row
+          h3 Learn socket programming using the NodeJS framework
+          button.menu-btn
+            i.fas.fa-ellipsis-v
+        p.meta 999k views &bull; 5 years ago

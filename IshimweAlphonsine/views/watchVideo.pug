@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .container.py-4
+    a.btn.btn-outline-danger.mb-3(href="/home") Back to videos
+
+    h2.fw-bold #{video.title}
+    p.text-muted #{video.views} views . #{video.quality}
+
+    video.watch-video.mt-3(controls)
+      source(src=video.videoPath)
+
+    if video.description
+      .mt-4
+        h5 Description
+        p #{video.description}

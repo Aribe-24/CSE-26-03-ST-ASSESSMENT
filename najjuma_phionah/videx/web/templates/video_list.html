@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="page-shell">
+    <header class="topbar">
+        <div>
+            <a class="brand" href="{% url 'landing' %}">
+                <span class="brand-icon">&#9658;</span>
+                <!-- play icon -->
+                <span>Videx</span>
+            </a>
+            <h1>Videos</h1>
+        </div>
+        <a class="outline-button" href="{% url 'upload_video' %}">Add Video</a>
+    </header>
+
+    {% if videos %}
+        <section class="video-grid" aria-label="Uploaded videos">
+            {% for video in videos %}
+                <article class="video-card">
+                    <a class="thumb-link" href="{{ video.video_file.url }}" aria-label="Play {{ video.title }}">
+                        <img src="{{ video.thumbnail.url }}" alt="{{ video.title }} thumbnail" class="thumbnail">
+                        <span class="play-pill">&#9658;</span>
+                    </a>
+                    <div class="video-info">
+                        <h2>{{ video.title }}</h2>
+                        <button class="menu-button" type="button" aria-label="Video options">&vellip;</button>
+                    </div>
+                    <p class="meta">{{ video.quality }} &middot; {{ video.publishing_date|date:"M j, Y" }}</p>
+                    <video class="player" controls poster="{{ video.thumbnail.url }}">
+                        <source src="{{ video.video_file.url }}">
+                    </video>
+                </article>
+            {% endfor %}
+        </section>
+    {% else %}
+        <section class="empty-state">
+            <h2>No videos yet</h2>
+            <p>Your uploaded videos will appear here with the newest one first.</p>
+            <a class="primary-button" href="{% url 'upload_video' %}">Upload Video</a>
+        </section>
+    {% endif %}
+</main>
+{% endblock %}

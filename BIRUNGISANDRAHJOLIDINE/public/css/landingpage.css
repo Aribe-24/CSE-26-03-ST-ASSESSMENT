@@ -1,0 +1,63 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #ffffff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Container */
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px; /* Space between logo and button */
+}
+
+/* Logo Structure (Icon + Text) */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between play button and "Videx" */
+}
+
+.logo-icon {
+    font-size: 4rem; 
+    color: #ff0000;  
+}
+
+.logo-text {
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: #ff0000;
+    letter-spacing: -1px;
+}
+
+
+.join-button {
+    display: inline-block;
+    text-decoration: none;
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    border: 1.5px solid #ff0000;
+    border-radius: 4px;
+    padding: 12px 60px; 
+    transition: all 0.2s ease-in-out;
+}
+
+
+.join-button:hover {
+    background-color: #ff0000;
+    color: #ffffff;
+}

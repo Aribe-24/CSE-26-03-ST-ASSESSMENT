@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Videx Landing Page</title>
+  <style>
+    /* Reset some default styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Body styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Container for content */
+    .container {
+      text-align: center;
+      padding: 50px;
+    }
+
+    /* Logo styles */
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo img {
+      width: 60px;
+      height: 60px;
+      margin-right: 10px;
+    }
+
+    /* Title styles */
+    h1 {
+      font-size: 2em;
+      color: #e50914; /* Red color matching the logo */
+      margin-top: 20px;
+    }
+
+    /* Main heading */
+    .main-heading {
+      margin-top: 30px;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Join button styles */
+    .join-button {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      color: #fff;
+      background-color: #e50914; /* Red button */
+      border: 2px solid #e50914;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      margin-top: 30px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .join-button:hover {
+      background-color: #b0060f; /* Darker red on hover */
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo with icon and text -->
+    <div class="logo">
+      <div style="display: flex; align-items: center; font-family: Arial, sans-serif;">
+  <!-- YouTube play button icon -->
+  <div style="width: 50px; height: 50px; background-color: #FF0000; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px;">
+    <!-- Play triangle -->
+    <div style="width: 0; height: 0; border-left: 20px solid #fff; border-top: 12px solid transparent; border-bottom: 12px solid transparent; margin-left: 5px;"></div>
+  </div>
+  <!-- Text "Videx" -->
+  <span style="font-size: 2em; font-weight: bold; color: #e50914;">Videx</span>
+</div>
+    </div>
+    <!-- Main heading -->
+    <h1 class="main-heading">Welcome to Videx</h1>
+    <!-- Join button -->
+    <a href="/home" class="join-button">Join Now</a>
+  </div>
+</body>
+</html>

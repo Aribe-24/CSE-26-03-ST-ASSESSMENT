@@ -1,0 +1,237 @@
+<!-- add_video.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Add Video</title>
+    <style>
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        /* Body styles */
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f9f9f9;
+          padding: 20px;
+        }
+
+        /* Main container */
+        .container {
+          max-width: 1000px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header */
+        h1 {
+          text-align: center;
+          margin-bottom: 20px;
+          font-weight: bold;
+        }
+
+        /* Navigation button */
+        .navigation {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .navigation button {
+          padding: 10px 20px;
+          font-size: 16px;
+          cursor: pointer;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          transition: background-color 0.3s;
+        }
+        .navigation button:hover {
+          background-color: #0056b3;
+        }
+
+        /* Form layout: two columns */
+        .columns {
+          display: flex;
+          gap: 20px;
+        }
+
+        .column {
+          flex: 1;
+        }
+
+        /* Form groups */
+        .mb-3 {
+          margin-bottom: 15px;
+        }
+        .form-label {
+          display: block;
+          margin-bottom: 8px;
+          font-weight: bold;
+          color: #555;
+        }
+        input[type="text"],
+        input[type="date"],
+        select,
+        input[type="file"],
+        textarea {
+          width: 100%;
+          padding: 8px 12px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+
+        /* Upload section styling for second column */
+        .upload-section {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          margin-top: 20px;
+        }
+
+        /* Video upload box styling */
+        .video-upload-box {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border: 2px dashed #ccc;
+          padding: 10px;
+          border-radius: 8px;
+          background-color: #f0f0f0;
+        }
+        .video-upload-box .upload-icon {
+          font-size: 40px;
+          color: #aaa;
+          margin-bottom: 5px;
+        }
+        .video-upload-box p {
+          margin-top: 5px;
+          font-size: 14px;
+          color: #555;
+        }
+
+        /* Thumbnail box styling */
+        .thumbnail-box {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border: 2px dashed #ccc;
+          padding: 10px;
+          border-radius: 8px;
+          background-color: #f0f0f0;
+        }
+        .thumbnail-box .upload-icon {
+          font-size: 50px;
+          color: #aaa;
+          margin-bottom: 10px;
+        }
+        .thumbnail-box p {
+          margin-top: 10px;
+          font-size: 14px;
+          color: #555;
+        }
+
+        /* Submit button styling */
+        .upload-button {
+          margin-top: 20px;
+          width: 100%;
+        }
+        .upload-button button {
+          width: 100%;
+          padding: 12px;
+          background-color: #dc3545; /* Red color for upload */
+          color: #fff;
+          border: none;
+          border-radius: 4px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+        .upload-button button:hover {
+          background-color: #b21f2d;
+        }
+    </style>
+</head>
+<body>
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+    {% csrf_token %}
+    <div class="container">
+        <h1>Upload Your Video</h1>
+        <div class="navigation">
+            <a href="{% url 'home' %}">
+                <button>Back to Home</button>
+            </a>
+        </div>
+
+        <!-- Main form with two columns -->
+        <form method="post" enctype="multipart/form-data" action="{% url 'upload' %}">
+            {% csrf_token %}
+            <div class="columns">
+                <!-- First column: Video Details -->
+                <div class="column">
+                    <div class="mb-3">
+                        <label class="form-label">Video Title</label>
+                        <input type="text" name="title" required field>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Video Description</label>
+                        <textarea name="description" rows="9" optional></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Video Quality</label>
+                        <select name="video_quality" required>
+                            <option value="360">360p</option>
+                            <option value="720">720p</option>
+                            <option value="1080">1080p</option>
+                            <option value="4k">4K</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Date of Publishing</label>
+                        <input type="date" name="date" required feild/>
+                    </div>
+                </div>
+
+                <!-- Second column: Upload video & thumbnail -->
+                <div class="column">
+                    <div class="upload-section">
+                        <!-- Upload Video -->
+                        <div class="video-upload-box">
+                            <div class="upload-icon">📹</div>
+                            <p>Upload your video</p>
+                            <input type="file" id="video" name="video" accept="video/*" required field>
+                        </div>
+
+                        <!-- Upload Thumbnail -->
+                        <div class="thumbnail-box">
+                            <div class="upload-icon">🖼️</div>
+                            <p>Upload thumbnail</p>
+                            <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required field>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="upload-button">
+                        <button type="submit">Upload</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

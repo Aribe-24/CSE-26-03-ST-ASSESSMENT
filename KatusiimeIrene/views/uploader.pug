@@ -1,0 +1,95 @@
+
+doctype html
+html(lang="en")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Upload Video
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
+    link(rel='stylesheet' href='/css/uploader.css')
+  body
+    .upload-container
+      h2 Upload your video
+      form.upload-form(action='/upload' method='POST' enctype='multipart/form-data' novalidate id='uploadForm')
+        .left-col
+          input.input-field(type='text' name='title' placeholder='Video Title' required)
+          small.error-text
+          textarea.text-area(name='description' placeholder='Description (Optional)')
+          
+          select.input-field(name='quality' required)
+            option(value='') Video quality
+            option(value='1080') 1080p
+            option(value='720') 720p
+            option(value='480') 480p
+            option(value='360') 360p
+          
+          //- Fixed indentation: Pulled back to line up with the select element
+          input.input-field(type='text' name='dateOfPublishing' placeholder='Date of Publishing' onfocus="(this.type='date')" required)
+          small.error-text
+          
+        .right-col
+          .drop-zone.video-zone
+            i.fas.fa-cloud-upload-alt
+            p Upload video
+            input(type='file' name='video' accept='video/mp4,video/webm,video/ogg' style='display:none;' required)
+          
+          //- Added specific class "thumbnail-zone" for targeted click triggers
+          .drop-zone.dashed.thumbnail-zone
+            i.fas.fa-cloud-upload-alt
+            p Upload Thumbnail
+            input(type='file' name='thumbnail' accept='image/jpeg,image/png,image/jpg' style='display:none')
+            small.error-text
+            
+        button.upload-btn(type='submit') UPLOAD
+
+    script.
+      console.log("Upload JS is running");
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("uploadForm");
+
+        form.addEventListener("submit", function (e) {
+          const inputs = this.querySelectorAll("input, select, textarea");
+          let hasEmpty = false;
+
+          inputs.forEach(input => {
+            // Check if input is a file
+            if (input.type === "file") {
+              // Only block if it is explicitly marked required and missing files
+              if (input.hasAttribute('required') && !input.files.length) {
+                input.closest('.drop-zone').classList.add("error");
+                hasEmpty = true;
+              } else {
+                input.closest('.drop-zone').classList.remove("error");
+              }
+            } else {
+              // Check text fields and selectors
+              if (input.hasAttribute('required') && !input.value.trim()) {
+                input.classList.add("error");
+                hasEmpty = true;
+              } else {
+                input.classList.remove("error");
+              }
+            }
+          });
+
+          if (hasEmpty) {
+            e.preventDefault();
+            console.log("Form submission blocked due to missing fields.");
+          }
+        });
+
+        // Video Click Handler
+        const videoZone = document.querySelector(".video-zone");
+        const videoInput = document.querySelector("input[name='video']");
+        if (videoZone && videoInput) {
+          videoZone.addEventListener("click", () => videoInput.click());
+        }
+
+        // Thumbnail Click Handler (Fixed)
+        const thumbnailZone = document.querySelector(".thumbnail-zone");
+        const thumbnailInput = document.querySelector("input[name='thumbnail']");
+        if (thumbnailZone && thumbnailInput) {
+          thumbnailZone.addEventListener("click", () => thumbnailInput.click());
+        }
+      });

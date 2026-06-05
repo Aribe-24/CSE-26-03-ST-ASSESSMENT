@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="landing-page">
+    <section class="join-panel" aria-label="Join Videx">
+        <div class="brand brand-large">
+            <span class="brand-icon"><i class="fa fa-play"></i></span>
+            <span>Videx</span>
+        </div>
+        <a class="outline-button join-button" href="{% url 'video_list' %}">JOIN</a>
+    </section>
+</main>
+{% endblock %}

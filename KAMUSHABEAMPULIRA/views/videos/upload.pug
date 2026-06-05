@@ -1,0 +1,95 @@
+extends ../layout
+
+block content
+  .app-layout
+    header.app-header
+      a.header-logo(href="/videos")
+        svg(viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="36" height="36")
+          circle(cx="30" cy="30" r="30" fill="red")
+          polygon(points="24,18 24,42 46,30" fill="white")
+        span Videx
+      a.add-video-btn(href="/videos/upload") Add Video
+
+    main.upload-content
+      h1.upload-title Upload your video
+
+      if success
+        .flash-success
+          span Video added successfully
+          button.flash-close(type="button" onclick="this.parentElement.remove()") ×
+
+      form#uploadForm(action="/videos/upload" method="POST" enctype="multipart/form-data")
+        .upload-grid
+          .upload-left
+            .field-group
+              input#titleInput(
+                type="text"
+                name="title"
+                placeholder="Video Title"
+                value=formData.title || ''
+                class=errors && errors.find(e => e.field === 'title') ? 'input-error' : ''
+              )
+              if errors && errors.find(e => e.field === 'title')
+                span.field-error Required field
+
+            .field-group
+              textarea#descInput(name="description" placeholder="Description (Optional)" rows="7")= formData.description || ''
+
+            .field-group
+              .select-wrapper(class=errors && errors.find(e => e.field === 'quality') ? 'select-error' : '')
+                select#qualitySelect(name="quality")
+                  option(value="" disabled selected) Video quality
+                  option(value="360"  selected=formData.quality === '360')  360
+                  option(value="480"  selected=formData.quality === '480')  480
+                  option(value="720"  selected=formData.quality === '720')  720
+                  option(value="1080" selected=formData.quality === '1080') 1080
+                  option(value="4K"   selected=formData.quality === '4K')   4K
+                svg.select-arrow(viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2")
+                  polyline(points="6 9 12 15 18 9")
+              if errors && errors.find(e => e.field === 'quality')
+                span.field-error Required field
+
+            .field-group
+              .date-wrapper(class=errors && errors.find(e => e.field === 'publishDate') ? 'date-error' : '')
+                input#dateInput(
+                  type="date"
+                  name="publishDate"
+                  value=formData.publishDate || ''
+                )
+                label(for="dateInput")
+                  svg(viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5")
+                    rect(x="3" y="4" width="18" height="18" rx="2" ry="2")
+                    line(x1="16" y1="2" x2="16" y2="6")
+                    line(x1="8" y1="2" x2="8" y2="6")
+                    line(x1="3" y1="10" x2="21" y2="10")
+              if errors && errors.find(e => e.field === 'publishDate')
+                span.field-error Required field
+
+          .upload-right
+            .field-group
+              .video-upload-zone(
+                id="videoZone"
+                class=errors && errors.find(e => e.field === 'videoFile') ? 'upload-zone-error' : ''
+                onclick="document.getElementById('videoFileInput').click()"
+              )
+                input#videoFileInput(type="file" name="videoFile" accept="video/*" style="display:none")
+                .upload-zone-inner#videoZoneInner
+                  svg.upload-icon(viewBox="0 0 24 24" width="50" height="50" fill="none")
+                    path(d="M12 16V4M12 4L8 8M12 4L16 8" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round")
+                    path(d="M3 17v1a3 3 0 003 3h12a3 3 0 003-3v-1" stroke="#aaa" stroke-width="1.5" stroke-linecap="round")
+                  span.upload-label Upload video
+              if errors && errors.find(e => e.field === 'videoFile')
+                span.field-error Required field
+
+            .field-group
+              .thumb-upload-zone(id="thumbZone" class=errors && errors.find(e => e.field === 'thumbnail') ? 'upload-zone-error' : '' onclick="document.getElementById('thumbnailInput').click()")
+                input#thumbnailInput(type="file" name="thumbnail" accept="image/*" style="display:none")
+                .upload-zone-inner#thumbZoneInner
+                  svg.upload-icon(viewBox="0 0 24 24" width="50" height="50" fill="none")
+                    path(d="M12 16V4M12 4L8 8M12 4L16 8" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round")
+                    path(d="M3 17v1a3 3 0 003 3h12a3 3 0 003-3v-1" stroke="#aaa" stroke-width="1.5" stroke-linecap="round")
+                  span.upload-label Upload Thumbnail
+              if errors && errors.find(e => e.field === 'thumbnail')
+                span.field-error Required field
+
+            button.upload-btn(type="submit") UPLOAD

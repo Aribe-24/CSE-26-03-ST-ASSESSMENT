@@ -1,0 +1,27 @@
+video.pug
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Videx Dashboard
+  link(href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap' rel='stylesheet')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
+  link(rel='stylesheet' href='/css/videoPage.css')
+header.header
+  .logo
+    i.fas.fa-play-circle
+    |  Videx
+  button.add-video-btn(onclick="location.href='/upload'") Add Video
+main.content
+  h3 Videos
+  hr
+  .video-grid
+    if videos && videos.length > 0
+        each video in videos 
+            .card(onclick=`location.href='/watch/${video._id}'`)
+                .thumb(style=`background-image: url('${video.thumbnailUrl || '/images/default-thumb.jpg'}'); background-size: cover; background-position: center;`)
+                .details 
+                    p.title #{video.title} 
+                p.meta #{video.views.toLocaleString()} views &middot; #{new Date(video.createdAt).toLocaleDateString()}
+    else
+        p No video uploaded yet.

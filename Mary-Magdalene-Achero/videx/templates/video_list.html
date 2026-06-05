@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+<main class="container py-4">
+
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="d-flex align-items-center gap-2">
+            <span class="fs-2 fw-bold text-danger">Videx</span>
+        </div>
+
+        <a class="btn btn-outline-danger px-4" href="{% url 'video_upload' %}">
+            Add Video
+        </a>
+    </div>
+
+    <h5 class="fw-bold mb-2">Videos</h5>
+    <hr class="mt-0 mb-4">
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+        {% for v in videos %}
+        <div class="col">
+            <div class="card">
+                <video controls class="w-100">
+                    <source src="{{ v.video_file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+
+                <div class="p-2">
+                    <h6>{{ v.video_title }}</h6>
+                    <small class="text-muted">
+                        {{ v.created_at|naturaltime }}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</main>
+{% endblock %}

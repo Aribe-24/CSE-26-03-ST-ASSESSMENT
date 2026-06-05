@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="video-page">
+
+    <div class="video-header">
+
+        <img
+            src="{% static 'images/logo.png' %}"
+            alt="Videx Logo"
+            class="header-logo"
+        >
+
+        <a
+            href="{% url 'video_list' %}"
+            class="back-btn"
+        >
+            Back
+        </a>
+
+    </div>
+
+    <div class="video-line"></div>
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-10 mx-auto">
+
+                <video
+                    width="100%"
+                    controls
+                    autoplay
+                >
+                    <source
+                        src="{{ video.video_file.url }}"
+                    >
+
+                    Your browser does not support video playback.
+                </video>
+
+                <h2 class="mt-4">
+                    {{ video.title }}
+                </h2>
+
+                <p class="video-meta">
+                    {{ video.views }} views ·
+                    {{ video.publishing_date }}
+                </p>
+
+                {% if video.description %}
+                <div class="card mt-3">
+                    <div class="card-body">
+                        {{ video.description }}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

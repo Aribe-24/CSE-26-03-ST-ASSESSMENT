@@ -1,0 +1,46 @@
+doctype html
+html
+  head
+    title Upload Video
+    link(rel="stylesheet" href="/css/style.css")
+
+  body
+    h1 Upload Your Video
+
+    form#uploadForm(action="/upload" method="POST" enctype="multipart/form-data")
+
+      .form-group
+        input(type="text" name="title" id="title" placeholder="Video Title")
+        small.error(id="titleError")
+
+      .form-group
+        textarea(name="description" id="description" placeholder="Description")
+        small.error(id="descriptionError")
+
+      .form-group
+        select(name="quality" id="quality")
+          option(value="") Select Quality
+          option(value="360p") 360p
+          option(value="720p") 720p
+          option(value="1080p") 1080p
+        small.error(id="qualityError")
+
+      .form-group
+        input(type="date" name="publishDate" id="publishDate")
+        small.error(id="dateError")
+
+      .form-group
+        label Upload Video
+        input(type="file" name="video" id="video" accept="video/*")
+        video#videoPreview(width="300" controls)
+        small.error(id="videoError")
+
+      .form-group
+        label Photo
+        input(type="file" name="photo" id="photo" accept="image/*")
+        img#thumbnailPreview(width="300")
+        small.error(id="thumbnailError")
+
+      button(type="submit") Upload
+
+    script(src="/js/upload.js")

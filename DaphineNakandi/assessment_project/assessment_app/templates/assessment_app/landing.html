@@ -1,0 +1,15 @@
+{% extends 'assessment_app/base.html' %}
+{% block content %}
+<div class="text-center mt-5">
+    <!-- Logo -->
+    <div class="mb-4">
+        <span style="color:red; font-size:64px;">▶</span>
+        <span style="color:red; font-size:48px; font-weight:bold;">Videx</span>
+    </div>
+
+    <!-- Join button -->
+    <a href="{% url 'upload_video' %}" class="btn btn-outline-danger btn-lg px-5">
+        JOIN
+    </a>
+</div>
+{% endblock %}
