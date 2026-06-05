@@ -1,11 +1,16 @@
 extends layout
-
 block content
   .landing-page
     .landing-center
+
+      //- App logo section
       .logo-hero
         svg(viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg")
           circle(cx="30" cy="30" r="30" fill="red")
           polygon(points="24,18 24,42 46,30" fill="white")
+
+        //- App name
         span.logo-text Videx
+
+      //- Button to enter video section
       a.join-btn(href="/videos") JOIN
