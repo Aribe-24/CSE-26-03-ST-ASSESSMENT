@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Videx - Videos</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      background-color: #fff;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      color: #ff0000;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .play-icon {
+      font-size: 40px;
+      margin-right: 10px;
+    }
+
+    .add-video {
+      background-color: transparent;
+      border: 2px solid #ff0000;
+      color: #ff0000;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .add-video:hover {
+      background-color: #ff0000;
+      color: #fff;
+    }
+
+    /* Main content */
+    main {
+      padding: 30px 40px;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      font-size: 22px;
+    }
+
+    /* Video grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    /* Video card block */
+    .video-card {
+      border-radius: 8px;
+      height: 150px; /* solid block */
+      background-color: #eaeaea;
+    }
+
+    /* Text below card */
+    .video-info {
+      margin-top: 10px;
+    }
+
+    .video-info h3 {
+      font-size: 15px;
+      margin: 0 0 5px 0;
+    }
+
+    .video-info p {
+      font-size: 13px;
+      color: #555;
+      margin: 0;
+    }
+
+    /* Thumbnail colors */
+    .red { background-color: #ff0000; }
+    .lightblue { background-color: #a8c9f0; }
+    .darkred { background-color: #b30000; }
+    .darkblue { background-color: #003366; }
+    .purple { background-color: #660099; }
+    .yellow { background-color: #ffcc00; }
+    .navy { background-color: #1a3d6d; }
+    .green { background-color: #5b7a3a; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="play-icon">&#9658;</div>
+      <h1>Videx</h1>
+    </div>
+    <a href="{% url 'add_video' %}">
+      <button class="add-video">Add Video</button>
+    </a>
+  </header>
+
+  <main>
+    <h2>Videos</h2>
+    <div class="video-grid">
+
+      
+      {% for video in videos %}
+        <div>
+          {% if video.thumbnail %}
+            <div class="video-card" style="background-image:url('{{ video.thumbnail.url }}'); background-size:cover; background-position:center;"></div>
+          {% else %}
+            <div class="video-card"></div>
+          {% endif %}
+          <div class="video-info">
+            <h3>{{ video.title }}</h3>
+            <p>{{ video.quality }} · {{ video.date_of_publishing }}</p>
+          </div>
+        </div>
+      {% endfor %}
+
+    
+      <div>
+        <div class="video-card red"></div>
+        <div class="video-info">
+          <h3>Arsenal wins the premier league after 22 years.</h3>
+          <p>999k views · 2 weeks ago</p>
+        </div>
+      </div>
+      <div>
+        <div class="video-card lightblue"></div>
+        <div class="video-info">
+          <h3>Manchester City lost its 2nd Consecutive premier league title</h3>
+          <p>999k views · 2 weeks ago</p>
+        </div>
+      </div>
+      <div>
+        <div class="video-card darkred"></div>
+        <div class="video-info">
+          <h3>Manchester United fan faints after Arsenal was declared winners of ...</h3>
+          <p>999k views · 2 weeks ago</p>
+        </div>
+      </div>
+      <div>
+        <div class="video-card darkblue"></div>
+        <div class="video-info">
+          <h3>UCL 2026 Finals referee to be investigated over bribery allegations</h3>
+          <p>999k views · 6 days ago</p>
+        </div>
+      </div>
+      <div>
+        <div class="video-card purple"></div>
+        <div class="video-info">
+          <h3>Refactory launches an AI powered Job board</h3>
+          <p>999k views · 3 months ago</p>
+        </div>
+      </div>
+      <div>
+        <div class="video-card yellow"></div>
+        <div class="video-info">
+          <h3>Who won the Spelling Bee 2026 finals?</h3>
+          <p>999k views · 2 weeks ago</p>
+        </div>
+      </div>
+      <div>
+        <div class="video-card navy"></div>
+        <div class="video-info">
+          <h3>Learn Python programming with Jajja Ozzy.</h3>
+          <p>999k views · 6 years ago</p>
+        </div>
+      </div>
+      <div>
+        <div class="video-card green"></div>
+        <div class="video-info">
+          <h3>Learn socket programming using the NodeJS framework</h3>
+          <p>999k views · 6 years ago</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
