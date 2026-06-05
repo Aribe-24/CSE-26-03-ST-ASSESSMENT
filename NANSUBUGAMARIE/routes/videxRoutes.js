@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
     destination:(req,res,cb)=>{
         if(file.fieldname === "video"){
             cb(null,"public/uploads/videos");
-        }else 
+        }else{
             cb(null,"public/uploads/thumbnails");    
     }
 },
@@ -21,6 +21,7 @@ filename: ( req,file,cb)=> {
     cb(null,
         Date.now()+ "" + file.originalname
     );
+}
 });
 
 const upload = multer({storage});
