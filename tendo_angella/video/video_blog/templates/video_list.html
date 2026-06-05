@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videx - Videos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <style>
+        body { background-color: #ffffff; font-family: sans-serif; }
+        
+        /* Videx Signature Header Button Style */
+        .btn-add-video {
+            color: #ff0000;
+            background-color: #ffffff;
+            border: 2px solid #ff0000;
+            font-weight: bold;
+            padding: 8px 24px;
+            border-radius: 6px;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+        }
+        .btn-add-video:hover {
+            color: #ffffff !important;
+            background-color: #ff0000 !important;
+            border-color: #ff0000 !important;
+        }
+
+        /* Video Thumbnail Card Mock Placeholder */
+        .video-thumbnail-box {
+            aspect-ratio: 16 / 9;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header class="container py-4 d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+        <img src="{% static 'logo.png' %}" alt="Videx Logo" height="40" class="d-inline-block align-top">
+    </div>
+    
+    <a href="{% url 'upload_video' %}" class="btn btn-add-video">Add Video</a>
+</header>
+
+<hr class="text-muted opacity-25 my-0">
+
+<main class="container py-4">
+    <h3 class="fw-bold mb-4">Videos</h3>
+    
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for video in videos %}
+            <div class="col">
+                <div class="card border-0 h-100">
+                    {% if video.thumbnail %}
+                        <img src="{{ video.thumbnail.url }}" class="img-fluid rounded-3" style="aspect-ratio: 16/9; object-fit: cover; width: 100%;" alt="{{ video.title }}">
+                    {% else %}
+                        <div class="video-thumbnail-box d-flex align-items-center justify-content-center text-muted small">No Thumbnail</div>
+                    {% endif %}
+                    
+                    <div class="card-body px-0 pt-2 pb-0">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-bold text-dark mb-1 lh-sm" style="max-height: 2.5rem; overflow: hidden;">{{ video.title }}</h6>
+                        </div>
+                        <p class="text-muted mb-0 small">999k views . {{ video.date_of_publishing|timesince }} ago</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5 my-5">
+                <div class="text-muted mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-cloud-arrow-up opacity-50" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M7.646 5.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2z"/>
+                        <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.556 14.556 13 12.773 13H3.727C1.668 13 0 11.332 0 9.273c0-1.734 1.197-3.15 2.753-3.577a5.51 5.51 0 0 1 1.653-2.354zm.644.765a4.52 4.52 0 0 0-1.298 2.264l-.154.548-.561.16c-1.16.332-1.994 1.4-1.994 2.614 0 1.512 1.226 2.738 2.738 2.738h9.046c1.398 0 2.536-1.138 2.536-2.536 0-1.223-.87-2.274-2.075-2.497l-.634-.117-.113-.642A4.432 4.432 0 0 0 8 3c-2.185 0-4.015 1.536-4.423 3.696l-.128.68-.687.124A3.473 3.473 0 0 0 1 10.773c0 1.943 1.579 3.523 3.523 3.523h9.046c2.51 0 4.546-2.036 4.546-4.546 0-2.316-1.731-4.24-4.017-4.498C13.411 2.896 10.96 1 8 1a5.96 5.96 0 0 0-2.95 1.107z"/>
+                    </svg>
+                </div>
+                <h4 class="text-secondary fw-semibold">No videos found</h4>
+                <p class="text-muted">Click the "Add Video" button at the top to upload your first clip!</p>
+            </div>
+        {% endfor %}
+    </div>
+</main>
+
+</body>
+</html>
