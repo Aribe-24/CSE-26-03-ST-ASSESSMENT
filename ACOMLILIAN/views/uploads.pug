@@ -1,0 +1,61 @@
+doctype html
+html(lang="en")
+  head
+    title Upload Video
+    link(rel="stylesheet", href="/css/uploads.css")
+  body
+    .container
+      h1 Upload your video
+      
+      form#uploadForm
+        .form-left
+          .field-group
+            input(type="text", id="videoTitle", placeholder="Video Title")
+            span.error-message#titleError Required field
+
+          textarea(id="description", placeholder="Description (Optional)")
+
+          .field-group
+            select(id="videoQuality")
+              option(value="", disabled, selected) Video quality
+              option(value="1080") 1080p
+              option(value="720") 720p
+            span.error-message#qualityError Required field
+
+          .field-group
+            input(type="date", id="publishDate", placeholder="Date of Publishing")
+            span.error-message#dateError Required field
+
+        .form-right
+          .upload-zone#videoZone
+            p Upload video
+            span.error-message#videoError Required field
+          
+          .upload-zone#thumbZone
+            p Upload Thumbnail
+
+        button(type="submit", id="uploadBtn") UPLOAD
+
+    script.
+      document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = {
+      title: document.getElementById('videoTitle').value,
+      quality: document.getElementById('videoQuality').value,
+      publishDate: document.getElementById('publishDate').value,
+      // ... include other fields
+    };
+
+    const response = await fetch('/api/videos/upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    if (response.ok) {
+      alert("Upload Successful!");
+    } else {
+      alert("Upload Failed.");
+    }
+  });

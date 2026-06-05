@@ -1,0 +1,32 @@
+.container { display: flex; flex-direction: column; width: 800px; margin: auto; }
+.form-left { width: 400px; float: left; }
+.form-right { width: 300px; float: right; }
+
+.field-group.error input, 
+.field-group.error select,
+.upload-zone.error {
+    border: 2px solid red;
+}
+
+.error-message {
+    display: none;
+    color: red;
+    font-size: 12px;
+}
+
+.field-group.error .error-message,
+.upload-zone.error .error-message {
+    display: block;
+}
+
+#uploadBtn {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+#uploadBtn:disabled {
+    background-color: grey;
+}

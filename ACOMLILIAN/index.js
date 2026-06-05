@@ -80,10 +80,8 @@ app.use((req, res, next) => {
   res.locals.user = req.user;
   next();
 });
-app.use("/", require("./routes/userRoutes"));
-app.use("/", require("./routes/salesRoutes"));
-app.use("/", require("./routes/depositRoutes"));
-app.use("/", require("./routes/stockRoutes"));
+app.use("/", require("./routes/uploadRoutes"));
+
 
 // 7. 404 handler
 app.use((req, res) => {
