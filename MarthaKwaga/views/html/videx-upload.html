@@ -322,4 +322,18 @@
           resetButton();
         }
       } catch (err) {
-        console.error
+        console.error(err);
+        alert('Network error. Please check your connection and try again.');
+        resetButton();
+      }
+
+      function resetButton() {
+        btn.textContent = originalText;
+        btn.disabled = false;
+        btn.style.background = '';
+        btn.style.borderColor = '';
+      }
+    });
+  </script>
+</body>
+</html>

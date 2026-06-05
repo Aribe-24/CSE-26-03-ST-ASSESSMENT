@@ -1,186 +1,109 @@
-// server.js
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const multer = require('multer');
-const fs = require('fs');
-const crypto = require('crypto');
-
-require('dotenv').config();
-
-// Import DB Connection & Models
-const connectDb = require('./config/db');
-const User = require('./models/User');
-const Video = require('./models/Video');
+require('dotenv').config(); // Loads environment variables if you use them later
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ====================== MIDDLEWARE ======================
-app.use(express.json());
+mongoose.connect('mongodb://localhost:27017/videx')
+  .then(() => console.log('🚀 Successfully connected to MongoDB'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
+
+const videoSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  quality: { type: String, required: true },
+  publishDate: { type: Date, required: true },
+  videoUrl: { type: String, required: true },      // File path for the video
+  thumbnailUrl: { type: String, required: true },  // File path for the thumbnail image
+  views: { type: String, default: '0' },
+  timeAgo: { type: String, default: 'Just now' }
+}, { timestamps: true });
+
+const Video = mongoose.model('Video', videoSchema);
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+// Parse incoming form text fields
 app.use(express.urlencoded({ extended: true }));
+// Serve static assets (CSS, and your future uploaded files)
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve static files
-app.use(express.static(path.join(__dirname)));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// ====================== MULTER CONFIG ======================
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const folder = file.fieldname === 'videoFile' ? 'uploads/videos' : 'uploads/thumbnails';
-    fs.mkdirSync(folder, { recursive: true });
-    cb(null, folder);
+    // Files save into public/uploads/
+    cb(null, 'public/uploads/');
   },
   filename: (req, file, cb) => {
-    const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e6);
-    cb(null, uniqueName + path.extname(file.originalname));
+    // Appends timestamp to prevent filename conflicts
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
-const upload = multer({
-  storage,
-  limits: { fileSize: 500 * 1024 * 1024 }, // 500MB
-  fileFilter: (req, file, cb) => {
-    if (file.fieldname === 'videoFile' && !file.mimetype.startsWith('video/')) {
-      return cb(new Error('Only video files are allowed'));
-    }
-    if (file.fieldname === 'thumbnailFile' && !file.mimetype.startsWith('image/')) {
-      return cb(new Error('Only image files are allowed'));
-    }
-    cb(null, true);
-  }
-});
-
-// ====================== ROUTES ======================
-
-// ------------------- PAGE ROUTES -------------------
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'videx-landing.html'));
-});
-
-app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, 'videx-join.html'));
-});
-
-app.get('/videos', (req, res) => {
-  res.sendFile(path.join(__dirname, 'videx-videos.html'));
-});
-
-app.get('/upload', (req, res) => {
-  res.sendFile(path.join(__dirname, 'videx-upload.html'));
-});
-
-// Video Watch/Player Route
-app.get('/watch/:id', (req, res) => {
-  res.sendFile(path.join(__dirname, 'videx-watch.html'));
-});
-
-// ------------------- API ROUTES -------------------
-const apiRouter = express.Router();
-
-// Auth Routes
-apiRouter.post('/join', async (req, res) => {
-  try {
-    const { firstName, lastName, username, email, channel } = req.body;
-
-    if (!firstName || !lastName || !username || !email) {
-      return res.status(400).json({ error: 'All required fields must be provided' });
-    }
-
-    const newUser = new User({
-      firstName,
-      lastName,
-      username,
-      email,
-      channel: channel || `${username}'s Channel`
-    });
-
-    await newUser.save();
-    res.status(201).json({
-      message: 'Account created successfully',
-      user: { id: newUser._id, username: newUser.username, channel: newUser.channel }
-    });
-  } catch (err) {
-    if (err.code === 11000) {
-      return res.status(409).json({ error: 'Username or email already exists' });
-    }
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Video Routes
-apiRouter.get('/videos', async (req, res) => {
-  try {
-    const videos = await Video.find().sort({ uploadedAt: -1 });
-    res.json({ videos, total: videos.length });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch videos' });
-  }
-});
-
-apiRouter.get('/videos/:id', async (req, res) => {
-  try {
-    const video = await Video.findById(req.params.id);
-    if (!video) return res.status(404).json({ error: 'Video not found' });
-    res.json(video);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch video' });
-  }
-});
-
-apiRouter.post('/videos', upload.fields([
+const upload = multer({ storage: storage }).fields([
   { name: 'videoFile', maxCount: 1 },
   { name: 'thumbnailFile', maxCount: 1 }
-]), async (req, res) => {
+]);
+
+
+// GET: Main Landing Page
+app.get('/', (req, res) => {
+    res.render('index'); 
+});
+
+// GET: Render the Upload Video Form Page
+app.get('/add', (req, res) => {
+  res.render('add');
+});
+
+// GET: Render Dashboard Grid View (Fetches live data from DB)
+app.get('/videos', async (req, res) => {
   try {
-    const { title, description, quality, publishDate, uploadedBy } = req.body;
+    const videos = await Video.find({}).sort({ createdAt: -1 }); // Newest first
+    res.render('videos', { videos });
+  } catch (error) {
+    res.status(500).send('Error loading videos dashboard.');
+  }
+});
 
-    if (!title || !quality || !publishDate) {
-      return res.status(400).json({ error: 'Title, quality, and publish date are required' });
+// POST: Handle form submission, save files and save fields to MongoDB
+app.post('/api/upload', upload, async (req, res) => {
+  try {
+    // Check if files were successfully captured by multer
+    if (!req.files || !req.files['videoFile'] || !req.files['thumbnailFile']) {
+      return res.status(400).send('Missing files! Please upload both a video and a thumbnail.');
     }
 
-    if (!req.files?.videoFile || !req.files?.thumbnailFile) {
-      return res.status(400).json({ error: 'Both video and thumbnail are required' });
-    }
+    const { title, description, quality, publishDate } = req.body;
+
+    // Relative web URLs pointing to where your static middleware serves the uploads folder
+    const videoUrl = `/uploads/${req.files['videoFile'][0].filename}`;
+    const thumbnailUrl = `/uploads/${req.files['thumbnailFile'][0].filename}`;
 
     const newVideo = new Video({
       title,
-      description: description || '',
+      description,
       quality,
       publishDate,
-      videoUrl: `/uploads/videos/${req.files.videoFile[0].filename}`,
-      thumbnailUrl: `/uploads/thumbnails/${req.files.thumbnailFile[0].filename}`,
-      uploadedBy: uploadedBy || 'anonymous'
+      videoUrl,
+      thumbnailUrl,
+      views: '0',
+      timeAgo: 'Just now'
     });
 
     await newVideo.save();
-    res.status(201).json({ message: 'Video uploaded successfully', video: newVideo });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    
+    // Redirect right over to your videos view template upon success
+    res.redirect('/videos');
+  } catch (error) {
+    console.error('Upload Process failure:', error);
+    res.status(500).send('Internal Server Error processing your upload.');
   }
 });
 
-apiRouter.delete('/videos/:id', async (req, res) => {
-  try {
-    const video = await Video.findById(req.params.id);
-    if (!video) return res.status(404).json({ error: 'Video not found' });
-
-    // Delete files from disk
-    const videoPath = path.join(__dirname, video.videoUrl);
-    const thumbPath = path.join(__dirname, video.thumbnailUrl);
-
-    if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
-    if (fs.existsSync(thumbPath)) fs.unlinkSync(thumbPath);
-
-    await Video.findByIdAndDelete(req.params.id);
-
-    res.json({ message: 'Video deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
 });
-
-// Mount API routes
-app.use('/api', apiRouter);
-
-// ====================== ERROR HANDLING
