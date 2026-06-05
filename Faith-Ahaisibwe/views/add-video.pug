@@ -1,0 +1,205 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0")
+    title Upload Video
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
+    link(rel="stylesheet" href="/css/dashboard.css")
+    style.
+      .upload-grid {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 30px;
+        align-items: start;
+      }
+      .upload-form { display: contents; }
+      .left-col { display: flex; flex-direction: column; gap: 18px; }
+      .right-col { display: flex; flex-direction: column; gap: 16px; align-items: stretch; }
+      
+      .form-group { display: flex; flex-direction: column; }
+      .form-group label { font-weight: 600; margin-bottom: 8px; color: #444; }
+      .form-group input[type="text"], .form-group textarea, .form-group input[type="date"], .form-group select {
+        padding: 14px 16px;
+        border: 1px solid #e6e6e6;
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+      }
+      .form-row { display: flex; gap: 12px; }
+      .form-group.small { flex: 1; }
+
+      /* Bounding containers for upload */
+      .upload-box .upload-drop, .thumb-box .upload-thumb {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 240px; /* Locked height matching layout proportions */
+        border-radius: 8px;
+        background: #f0f0f0; 
+        border: 2px dashed #cccccc;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden; 
+      }
+      
+      /* Solid background for video slot if empty */
+      .upload-box .upload-drop { background: #cccccc; border: none; }
+
+      .upload-box input[type="file"], .thumb-box input[type="file"] { display: none; }
+      
+      /* Centering fix for placeholders */
+      .upload-placeholder, .thumb-placeholder { 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center; 
+        font-size: 16px;
+        color: #666;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+      }
+      .upload-placeholder i, .thumb-placeholder i { 
+        font-size: 36px; 
+        display: block; 
+        margin-bottom: 8px; 
+        color: #999;
+      }
+
+      .upload-btn {
+        margin-top: 8px;
+        background: #ff0000;
+        color: #fff;
+        border: 2px solid #ff0000;
+        padding: 14px 24px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .upload-btn:hover {
+        background: #fff;
+        color: #ff0000;
+        border: 2px solid #ff0000;
+      }
+
+      /* Hide placeholder states cleanly when preview is active */
+      .upload-drop.has-preview .upload-placeholder, 
+      .upload-thumb.has-preview .thumb-placeholder { 
+        display: none !important; 
+      }
+      
+      .video-preview, .thumbnail-preview { 
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; 
+        height: 100%;
+        z-index: 2;
+      }
+
+      /* Force preview assets to fill the entire container completely */
+      .video-preview video, .thumbnail-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+        display: block;
+        border-radius: 6px;
+      }
+
+      .error-message { 
+        color: #ff0000; 
+        font-size: 13px; 
+        margin-top: 6px; 
+        display: none; 
+      }
+      @media (max-width: 900px) {
+        .upload-grid { grid-template-columns: 1fr; }
+      }
+
+      .success-message {
+        display: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #4caf50;
+        color: white;
+        padding: 16px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        z-index: 9999;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      }
+
+  body
+    header.main-header
+      div.header-logo
+        svg.logo-icon(viewBox="0 0 24 24" fill="currentColor")
+          path(d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z")
+        span.logo-text Videx
+      a.add-video-btn(href="/dashboard") Back to Dashboard
+
+    main.dashboard-content
+      section.videos-section.upload-grid
+        h2.section-title Upload your video
+        hr.section-divider
+
+        form.upload-form(action="/add-video" method="POST" enctype="multipart/form-data" id="videoUploadForm")
+          .left-col
+            .form-group
+              label(for="title") Video Title
+              input(type="text" id="title" name="title" placeholder="Video Title")
+              .error-message(id="titleError") Video title is required
+            
+            .form-group
+              label(for="description") Description (Optional)
+              textarea(id="description" name="description" rows="8" placeholder="Description (Optional)")
+            
+            .form-row
+              .form-group.small
+                label(for="quality") Video quality
+                select(id="quality" name="quality")
+                  option(value="") Select quality
+                  option(value="1080p") 1080p
+                  option(value="720p") 720p
+                  option(value="480p") 480p
+                .error-message(id="qualityError") Video quality is required
+              
+              .form-group.small
+                label(for="publishDate") Date of Publishing
+                input(type="date" id="publishDate" name="publishDate")
+                .error-message(id="dateError") Publish date is required
+          
+          .right-col
+            .upload-box
+              label.upload-drop(for="videoFile" id="videoDropContainer")
+                .upload-placeholder
+                  i.fas.fa-cloud-upload-alt
+                  p Upload video
+                input(type="file" id="videoFile" name="videoFile" accept="video/*")
+                .video-preview(id="videoPreview")
+                  video(id="previewVideo" controls style="display: none;")
+              .error-message(id="videoError") Video file is required
+            
+            .thumb-box
+              label.upload-thumb(for="thumbFile" id="thumbDropContainer")
+                .thumb-placeholder
+                  i.fas.fa-cloud-upload-alt
+                  p Upload Thumbnail
+                input(type="file" id="thumbFile" name="thumbFile" accept="image/*")
+                .thumbnail-preview(id="thumbnailPreview")
+                  img(id="previewThumb" style="display: none;")
+
+            button.upload-btn(type="submit") UPLOAD
+
+    div.success-message(id="successMsg") ✓ Video uploaded successfully!
+
+  script(src="/js/add-video.js")
