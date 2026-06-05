@@ -1,32 +1,120 @@
-.container { display: flex; flex-direction: column; width: 800px; margin: auto; }
-.form-left { width: 400px; float: left; }
-.form-right { width: 300px; float: right; }
-
-.field-group.error input, 
-.field-group.error select,
-.upload-zone.error {
-    border: 2px solid red;
+/* --- Layout --- */
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  font-family: sans-serif;
 }
 
-.error-message {
-    display: none;
-    color: red;
-    font-size: 12px;
+#uploadForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
 }
 
-.field-group.error .error-message,
-.upload-zone.error .error-message {
-    display: block;
+.form-left,
+.form-right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
+/* --- Form Components --- */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+/* --- Upload Zones --- */
+.upload-zone {
+  height: 180px;
+  border: 2px dashed #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  border-radius: 8px;
+  background: #f9f9f9;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-zone:hover {
+  border-color: red;
+  background: #fff0f0;
+  color: red;
+}
+
+/* --- Buttons --- */
 #uploadBtn {
-    background-color: red;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
+  background: red;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-#uploadBtn:disabled {
-    background-color: grey;
+#uploadBtn:hover {
+  background: #d00;
 }
+
+/* --- Error States --- */
+.error-message {
+  color: red;
+  font-size: 12px;
+  display: none;
+  margin-top: 5px;
+}
+
+.upload-zone.error {
+  border: 2px solid red !important;
+  background: #fff0f0;
+}
+.container { max-width: 900px; margin: 50px auto; font-family: sans-serif; }
+
+#successBanner {
+  display: none;
+  background: #d4edda;
+  color: #155724;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid #c3e6cb;
+}
+
+#uploadForm { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.form-left, .form-right { display: flex; flex-direction: column; gap: 15px; }
+
+input, textarea, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+
+.upload-zone {
+  height: 180px; border: 2px dashed #ccc; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; color: #888; border-radius: 8px;
+  background: #f9f9f9; cursor: pointer; transition: 0.3s;
+}
+
+.upload-zone:hover { border-color: red; background: #fff0f0; color: red; }
+.upload-zone.error { border: 2px solid red !important; }
+
+.error-message { color: red; font-size: 12px; display: none; margin-top: 5px; }
+
+#uploadBtn { 
+  background: red; color: white; border: none; padding: 15px; 
+  border-radius: 4px; font-weight: bold; cursor: pointer; 
+}
+#uploadBtn:disabled { background: #aaa; cursor: not-allowed; }

@@ -5,6 +5,9 @@ html(lang="en")
     link(rel="stylesheet", href="/css/uploads.css")
   body
     .container
+      //- Success message banner
+      #successBanner Upload Successful! Redirecting...
+
       h1 Upload your video
       
       form#uploadForm
@@ -23,39 +26,68 @@ html(lang="en")
             span.error-message#qualityError Required field
 
           .field-group
-            input(type="date", id="publishDate", placeholder="Date of Publishing")
+            input(type="date", id="publishDate")
             span.error-message#dateError Required field
 
         .form-right
           .upload-zone#videoZone
             p Upload video
+            input(type="file", id="videoInput", style="display:none")
             span.error-message#videoError Required field
           
           .upload-zone#thumbZone
             p Upload Thumbnail
+            input(type="file", id="thumbInput", style="display:none")
 
-        button(type="submit", id="uploadBtn") UPLOAD
+          button(type="submit", id="uploadBtn") UPLOAD
 
     script.
+      // Trigger file inputs
+      document.getElementById('videoZone').addEventListener('click', () => document.getElementById('videoInput').click());
+      document.getElementById('thumbZone').addEventListener('click', () => document.getElementById('thumbInput').click());
+
       document.getElementById('uploadForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = {
-      title: document.getElementById('videoTitle').value,
-      quality: document.getElementById('videoQuality').value,
-      publishDate: document.getElementById('publishDate').value,
-      // ... include other fields
-    };
+        e.preventDefault();
+        
+        // Reset previous errors
+        document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+        document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
 
-    const response = await fetch('/api/videos/upload', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
+        // Simple Validation
+        let isValid = true;
+        if (!document.getElementById('videoTitle').value) {
+          document.getElementById('titleError').style.display = 'block';
+          isValid = false;
+        }
+        if (document.getElementById('videoInput').files.length === 0) {
+          document.getElementById('videoZone').classList.add('error');
+          document.getElementById('videoError').style.display = 'block';
+          isValid = false;
+        }
 
-    if (response.ok) {
-      alert("Upload Successful!");
-    } else {
-      alert("Upload Failed.");
-    }
-  });
+        if (!isValid) return;
+
+        // Simulate submission
+        const response = await fetch('/api/videos/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: document.getElementById('videoTitle').value,
+            quality: document.getElementById('videoQuality').value,
+            publishDate: document.getElementById('publishDate').value
+          })
+        });
+
+        if (response.ok) {
+          const banner = document.getElementById('successBanner');
+          banner.style.display = 'block';
+          document.getElementById('uploadBtn').disabled = true;
+          
+          // Redirect to video list (home page) after 2 seconds
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000);
+        } else {
+          alert("Upload Failed. Please try again.");
+        }
+      });

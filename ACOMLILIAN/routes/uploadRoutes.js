@@ -2,15 +2,29 @@ const express = require('express');
 const router = express.Router();
 const Video = require('../models/Uploads');
 
-router.get('/upload', (req, res) => {
-  res.render('uploads'); 
+// Updated Home Route: Fetches videos from the database
+router.get('/', async (req, res) => {
+    try {
+        // Fetch all videos from MongoDB, sorted by newest first
+        const videos = await Video.find().sort({ createdAt: -1 });
+        
+        // Pass the videos array to your home.pug template
+        return res.render('home', { videos });
+    } catch (error) {
+        console.error("Error fetching videos:", error);
+        return res.status(500).send("Error loading dashboard");
+    }
 });
+
+router.get('/upload', (req, res) => {
+    return res.render('uploads'); 
+});
+
 // Route to handle video upload submission
 router.post('/upload', async (req, res) => {
   try {
     const { title, description, quality, publishDate, videoUrl, thumbnailUrl } = req.body;
 
-    // Validate fields on the server side
     if (!title || !quality || !publishDate || !videoUrl) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
@@ -26,9 +40,9 @@ router.post('/upload', async (req, res) => {
 
     await newVideo.save();
     
-    res.status(201).json({ message: 'Video uploaded successfully!', video: newVideo });
+    return res.status(201).json({ message: 'Video uploaded successfully!', video: newVideo });
   } catch (error) {
-    res.status(500).json({ error: 'Server error during upload' });
+    return res.status(500).json({ error: 'Server error during upload' });
   }
 });
 

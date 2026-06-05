@@ -10,9 +10,11 @@ html(lang="en")
       .logo
         .icon ▶
         | Videx
+      // Ensure the ID here matches the one in your script
       button#join-btn JOIN
 
     script.
+      // Redirect to the upload form when JOIN is clicked
       document.getElementById('join-btn').addEventListener('click', function() {
-          alert('Welcome to Videx!');
+        window.location.href = '/upload';
       });
