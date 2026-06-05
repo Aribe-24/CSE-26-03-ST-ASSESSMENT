@@ -18,10 +18,11 @@ from django.contrib import admin
 from django.urls import path
 from videoapp import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('video_display/', views.video_display, name='video_display'),
-    path('add_video/,', views.add_video, name='add_video'),
-
+    path('add_video/', views.add_video, name='add_video'),
 ]
+    

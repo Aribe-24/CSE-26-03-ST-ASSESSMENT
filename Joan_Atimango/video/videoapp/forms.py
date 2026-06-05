@@ -1,38 +1,13 @@
 from django import forms
-from .models import Video
+from .models import Videos
 
-class VideoUploadForm(forms.ModelForm):
+class VideoForm(forms.ModelForm):
     class Meta:
-        model = Video
-        fields = [
-            'title',
-            'description',
-            'video_file',
-            'thumb_nail',
-            'quality',
-            'date_of_publishing'
-        ]
+        model = Videos
+        fields = ['title', 'description', 'quality', 'published_date', 'file', 'thumbnail']
         widgets = {
-            'title': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Video Title'
-            }),
-            'description': forms.Textarea(attrs={
-                'rows': 4,
-                'class': 'form-control',
-                'placeholder': 'Description (Optional)'
-            }),
-            'video_file': forms.FileInput(attrs={
-                'class': 'form-control'
-            }),
-            'thumb_nail': forms.FileInput(attrs={
-                'class': 'form-control'
-            }),
-            'quality': forms.Select(attrs={
-                'class': 'form-control'
-            }),
-            'date_of_publishing': forms.DateInput(attrs={
-                'type': 'date',
-                'class': 'form-control'
-            }),
+            'title': forms.TextInput(attrs={'placeholder': 'Video Title'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Description (Optional)', 'rows': 4}),
+            'quality': forms.Select(choices=[('720p', '720p'), ('1080p', '1080p'), ('4K', '4K')]),
+            'published_date': forms.DateInput(attrs={'type': 'date'}),
         }
