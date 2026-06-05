@@ -82,12 +82,14 @@ block content
                 span.field-error Required field
 
             .field-group
-              .thumb-upload-zone(id="thumbZone" onclick="document.getElementById('thumbnailInput').click()")
+              .thumb-upload-zone(id="thumbZone" class=errors && errors.find(e => e.field === 'thumbnail') ? 'upload-zone-error' : '' onclick="document.getElementById('thumbnailInput').click()")
                 input#thumbnailInput(type="file" name="thumbnail" accept="image/*" style="display:none")
                 .upload-zone-inner#thumbZoneInner
                   svg.upload-icon(viewBox="0 0 24 24" width="50" height="50" fill="none")
                     path(d="M12 16V4M12 4L8 8M12 4L16 8" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round")
                     path(d="M3 17v1a3 3 0 003 3h12a3 3 0 003-3v-1" stroke="#aaa" stroke-width="1.5" stroke-linecap="round")
                   span.upload-label Upload Thumbnail
+              if errors && errors.find(e => e.field === 'thumbnail')
+                span.field-error Required field
 
             button.upload-btn(type="submit") UPLOAD

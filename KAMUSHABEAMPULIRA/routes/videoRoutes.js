@@ -5,10 +5,8 @@ const path = require('path');
 const fs = require('fs');
 const Video = require('../models/Video');
 
-/* -------------------------
-   Multer configuration
-   handles video + thumbnail uploads
--------------------------- */
+
+  // Multer configuration
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -60,9 +58,8 @@ const upload = multer({
   { name: 'thumbnail', maxCount: 1 }
 ]);
 
-/* -------------------------
-   Helper functions
--------------------------- */
+   //Helper functions
+
 
 // convert date to "time ago" format
 function timeAgo(date) {
@@ -93,10 +90,6 @@ function formatViews(n) {
   if (n >= 1000) return Math.floor(n / 1000) + 'k';
   return n.toString();
 }
-
-/* -------------------------
-   Routes
--------------------------- */
 
 // show all videos (home page)
 router.get('/', async (req, res) => {
@@ -148,12 +141,16 @@ router.post('/upload', (req, res) => {
     const { title, quality, publishDate } = req.body;
 
     // basic validation
-    if (!title || !title.trim()) errors.push({ msg: 'Title is required' });
-    if (!quality) errors.push({ msg: 'Quality is required' });
-    if (!publishDate) errors.push({ msg: 'Publish date is required' });
+    if (!title || !title.trim()) errors.push({ field: 'title', msg: 'Title is required' });
+    if (!quality) errors.push({ field: 'quality', msg: 'Quality is required' });
+    if (!publishDate) errors.push({ field: 'publishDate', msg: 'Publish date is required' });
 
     if (!req.files || !req.files.videoFile) {
-      errors.push({ msg: 'Video file is required' });
+      errors.push({ field: 'videoFile', msg: 'Video file is required' });
+    }
+
+    if (!req.files || !req.files.thumbnail) {
+      errors.push({ field: 'thumbnail', msg: 'Thumbnail is required' });
     }
 
     // if errors exist, delete uploaded temp files
