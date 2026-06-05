@@ -26,7 +26,7 @@ def upload(request):
         if form.is_valid():
             form.save()
         messages.success(request, 'Your video has been uploaded successfully!')
-        return redirect('home')  # redirect back to the form page
+        return redirect('home')  # 
     else:
         # If GET request, maybe render the form
         return render(request, 'add_video.html')
