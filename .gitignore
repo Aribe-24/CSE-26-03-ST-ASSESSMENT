@@ -1,4 +1,26 @@
-# Logs
+node_modules/
+npm-debug.log*
+.env
+.DS_Store
+
+# Ignore uploaded files (thumbnails, videos)
+IshimweAlphonsine/public/uploads/
+IshimweAlphonsine/public/uploads/*
+
+# Editor/OS files
+Thumbs.db
+*.lognode_modules/
+npm-debug.log*
+.env
+.DS_Store
+
+# Ignore uploaded files (thumbnails, videos)
+IshimweAlphonsine/public/uploads/
+IshimweAlphonsine/public/uploads/*
+
+# Editor/OS files
+Thumbs.db
+*.log# Logs
 logs
 *.log
 npm-debug.log*

@@ -1,0 +1,85 @@
+extends layout
+
+block content
+  .container.upload-container.py-4
+    .d-flex.justify-content-between.align-items-center.mb-3
+      h1.fw-bold.mb-4 Upload your video
+      a.btn.btn-secondary(href="/home") Back to videos
+
+    if success
+      .alert.alert-success.d-flex.justify-content-between.align-items-center
+        span Video added successfully
+        button.btn-close(type="button", data-bs-dismiss="alert")
+
+    form#uploadForm(action="/upload", method="POST", enctype="multipart/form-data", novalidate)
+      .row.g-4
+        .col-md-6
+          .mb-3
+            input.form-control.custom-input(
+              type="text",
+              name="title",
+              placeholder="Video Title",
+              value=oldData.title || "",
+              class=errors.title ? "is-invalid-custom" : ""
+            )
+
+            if errors.title
+              small.text-danger.ms-1 Required field
+
+          .mb-3
+            textarea.form-control.custom-textarea(
+              name="description",
+              placeholder="Description (Optional)"
+            ) #{oldData.description || ""}
+
+          .mb-3
+            select.form-select.custom-input(
+              name="quality",
+              class=errors.quality ? "is-invalid-custom" : ""
+            )
+              option(value="") Video quality
+              option(value="360p", selected=oldData.quality === "360p") 360p
+              option(value="720p", selected=oldData.quality === "720p") 720p
+              option(value="1080p", selected=oldData.quality === "1080p") 1080p
+
+            if errors.quality
+              small.text-danger.ms-1 Required field
+
+          .mb-3
+            input.form-control.custom-input(
+              type="date",
+              name="publishingDate",
+              value=oldData.publishingDate || "",
+              class=errors.publishingDate ? "is-invalid-custom" : ""
+            )
+
+            if errors.publishingDate
+              small.text-danger.ms-1 Required field
+
+        .col-md-6
+          .mb-3
+            label.upload-box(class=errors.videoFile ? "is-invalid-custom" : "")
+              input#videoInput(type="file", name="videoFile", accept="video/*", hidden)
+              video#videoPreview.preview-video(controls, hidden)
+              .upload-placeholder#videoPlaceholder
+                .upload-icon ☁
+                p Upload video
+
+            if errors.videoFile
+              small.text-danger.ms-1 Required field
+
+          .mb-3
+            label.upload-box.thumbnail-box(class=errors.thumbnailFile ? "is-invalid-custom" : "")
+              input#thumbnailInput(type="file", name="thumbnailFile", accept="image/*", hidden)
+              img#thumbnailPreview.preview-image(hidden)
+              .upload-placeholder#thumbnailPlaceholder
+                .upload-icon ☁
+                p Upload Thumbnail
+
+            if errors.thumbnailFile
+              small.text-danger.ms-1 Required field
+
+          button.btn.upload-btn.w-100(type="submit") UPLOAD
+
+block scripts
+  script(src="/js/upload.js")
