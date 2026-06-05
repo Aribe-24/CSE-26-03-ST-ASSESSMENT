@@ -1,0 +1,73 @@
+{% extends 'assessment_app/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Upload your video</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="p-4 border rounded bg-white shadow-sm">
+        {% csrf_token %}
+
+        <!-- Video Title -->
+        <div class="mb-3">
+            <label for="id_video_title" class="form-label">Video Title</label>
+            <input type="text" name="video_title" id="id_video_title"
+                   class="form-control {% if form.video_title.errors %}is-invalid{% endif %}"
+                   value="{{ form.video_title.value|default:'' }}">
+            {% for error in form.video_title.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label for="id_description" class="form-label">Description (Optional)</label>
+            <textarea name="description" id="id_description"
+                      class="form-control {% if form.description.errors %}is-invalid{% endif %}"
+                      rows="3">{{ form.description.value|default:'' }}</textarea>
+            {% for error in form.description.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Video Quality -->
+        <div class="mb-3">
+            <label for="id_video_quality" class="form-label">Video Quality</label>
+            {{ form.video_quality }}
+            {% for error in form.video_quality.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Date of Publishing -->
+        <div class="mb-3">
+            <label for="id_date_of_publish" class="form-label">Date of Publishing</label>
+            {{ form.date_of_publish }}
+            {% for error in form.date_of_publish.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Video File -->
+        <div class="mb-3">
+            <label for="id_video_file" class="form-label">Upload Video</label>
+            {{ form.video_file }}
+            {% for error in form.video_file.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Thumbnail -->
+        <div class="mb-3">
+            <label for="id_thumbnail" class="form-label">Upload Thumbnail</label>
+            {{ form.thumbnail }}
+            {% for error in form.thumbnail.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger btn-lg px-5">UPLOAD</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
