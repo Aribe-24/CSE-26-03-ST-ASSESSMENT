@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags static %}
+
+{% block content %}
+<main class="container py-5">
+    <div class="mx-auto" style="max-width: 800px;">
+        <h1 class="mb-4 fw-bold" style="font-size: 2rem;">Upload your video</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'video_upload' %}" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        {{ form.video_title }}
+                        {% if form.video_title.errors %}
+                        <div class="text-danger small mt-1">{{ form.video_title.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <div class="text-danger small mt-1">{{ form.description.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="position-relative">
+                            {{ form.video_quality }}
+                            <span class="position-absolute top-50 end-0 translate-middle-y pe-3 text-muted"
+                                style="pointer-events:none;">
+                                <i class="bi bi-chevron-down"></i>
+                            </span>
+                        </div>
+
+                        {% if form.video_quality.errors %}
+                        <div class="text-danger small mt-1">{{ form.video_quality.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <div class="position-relative">
+                            {{ form.date_of_publish }}
+                            <span class="position-absolute top-50 end-0 translate-middle-y pe-3 text-muted"
+                                style="pointer-events:none;">
+                                <i class="bi bi-calendar3"></i>
+                            </span>
+                        </div>
+
+                        {% if form.date_of_publish.errors %}
+                        <div class="text-danger small mt-1">{{ form.date_of_publish.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+
+                <div class="col-lg-6">
+                    {{ form.video_file }}
+                    {{ form.thumbnail }}
+                    <div id="videoZone" class="upload-zone video mb-4 {% if form.video_file.errors %}error-border{% endif %}">
+                        <div>
+                            <svg class="upload-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" />
+                            </svg>
+                            <div class="upload-label">Upload video</div>
+
+                        </div>
+                    </div>
+                    {% if form.video_file.errors %}
+                    <div class="text-danger small mt-1 mb-3">{{ form.video_file.errors|striptags }}</div>
+                    {% endif %}
+
+
+                    <div id="thumbZone" class="upload-zone thumb mb-4">
+                        <div>
+                            <svg class="upload-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path
+                                    d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" />
+                            </svg>
+                            <div class="upload-label">Upload Thumbnail</div>
+
+
+                            <img id="thumbPreview" alt=""
+                                style="display:none; max-width: 240px; margin-top: 14px; border-radius: 10px;">
+                        </div>
+                    </div>
+                    {% if form.thumbnail.errors %}
+                    <div class="text-danger small mt-1 mb-3">{{ form.thumbnail.errors|striptags }}</div>
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-danger w-100 btn-upload">UPLOAD</button>
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger mt-3">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                    
+                    
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script>
+    const videoZone = document.getElementById("videoZone");
+    const thumbZone = document.getElementById("thumbZone");
+
+    const videoInput = document.getElementById("id_video_file");
+    const thumbInput = document.getElementById("id_thumbnail");
+
+
+    const thumbPreview = document.getElementById("thumbPreview");
+
+    // click zones to open file picker
+    videoZone.addEventListener("click", () => videoInput.click());
+    thumbZone.addEventListener("click", () => thumbInput.click());
+
+    // show filenames
+    videoInput.addEventListener("change", () => {
+        if (videoInput.files && videoInput.files[0]) {
+            // videoName.textContent = videoInput.files[0].name;
+        }
+    });
+
+    // show thumbnail preview
+    thumbInput.addEventListener("change", () => {
+        if (thumbInput.files && thumbInput.files[0]) {
+            const file = thumbInput.files[0];
+            // thumbName.textContent = file.name;
+
+            const url = URL.createObjectURL(file);
+            thumbPreview.src = url;
+            thumbPreview.style.display = "inline-block";
+        } else {
+
+            thumbPreview.style.display = "none";
+            thumbPreview.src = "";
+        }
+    });
+</script>
+{% endblock %}

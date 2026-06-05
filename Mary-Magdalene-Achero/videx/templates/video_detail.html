@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags static %}
+
+{% block content %}
+<div class="container py-4">
+
+    <h2 class="mb-3">{{ video.video_title }}</h2>
+
+    <video controls width="100%">
+        <source src="{{ video.video_file.url }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="mt-3">
+        <p><strong>Quality:</strong> {{ video.video_quality }}</p>
+        <p><strong>Published:</strong> {{ video.date_of_publish }}</p>
+
+        {% if video.description %}
+            <h5>Description</h5>
+            <p>{{ video.description }}</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
