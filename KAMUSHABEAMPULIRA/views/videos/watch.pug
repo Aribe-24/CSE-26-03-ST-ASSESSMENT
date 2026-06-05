@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  .app-layout
+    header.app-header
+      a.header-logo(href="/videos")
+        svg(viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="36" height="36")
+          circle(cx="30" cy="30" r="30" fill="red")
+          polygon(points="24,18 24,42 46,30" fill="white")
+        span Videx
+      a.add-video-btn(href="/videos/upload") Add Video
+
+    main.watch-content
+      .watch-container
+        video.video-player(controls autoplay)
+          source(src=`/${video.videoFile}`)
+          | Your browser does not support the video tag.
+        .watch-info
+          h1.watch-title= video.title
+          .watch-meta #{video.views} views
+          if video.description
+            p.watch-description= video.description
