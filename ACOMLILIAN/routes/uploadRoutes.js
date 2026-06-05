@@ -2,6 +2,22 @@ const express = require('express');
 const router = express.Router();
 const Video = require('../models/Uploads');
 
+
+const multer = require('multer');
+const path = require('path');
+
+// Configure storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/uploads/'); // Ensure this folder exists
+  },
+  filename: (req, file, cb) => {
+    // Generates a unique filename: video-123456789.mp4
+    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+  }
+});
+
+const upload = multer({ storage: storage });
 // Updated Home Route: Fetches videos from the database
 router.get('/', async (req, res) => {
     try {
