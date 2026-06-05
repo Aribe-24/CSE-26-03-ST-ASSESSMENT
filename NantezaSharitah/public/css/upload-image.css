@@ -1,0 +1,125 @@
+/* --- Global Resets --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5; /* Light grey background */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Container Card --- */
+.upload-container {
+    background-color: #ffffff;
+    width: 90%;
+    max-width: 950px;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #222222;
+    margin-bottom: 30px;
+}
+
+/* --- Form Layout (Flexbox split columns) --- */
+.upload-form {
+    display: flex;
+    gap: 40px;
+}
+
+.form-left, .form-right {
+    flex: 1; /* Gives both sides equal 50% width */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* --- Left Column Styles --- */
+.input-field {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.input-field::placeholder {
+    color: #999999;
+}
+
+.textarea-field {
+    height: 120px;
+    resize: none; /* Prevents user from breaking layout sizes */
+}
+
+/* --- Right Column Styles (Dropzones) --- */
+.dropzone {
+    width: 100%;
+    border: 1px dashed #cccccc;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #777777;
+    transition: background-color 0.2s;
+}
+
+/* Top grayed-out video dropzone */
+.video-drop {
+    height: 160px;
+    background-color: #e9ecef;
+    border: none;
+}
+
+/* Bottom white thumbnail dropzone */
+.thumbnail-drop {
+    height: 130px;
+    background-color: #ffffff;
+}
+
+.dropzone:hover {
+    background-color: #f8f9fa;
+}
+
+.upload-icon {
+    font-size: 2rem;
+    color: #888888;
+}
+
+/* --- Red Action Button --- */
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #e53935; /* Solid UI Red */
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: auto; /* Pushes the button perfectly to the bottom */
+}
+
+.submit-btn:hover {
+    background-color: #c62828;
+}

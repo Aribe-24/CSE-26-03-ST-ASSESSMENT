@@ -56,7 +56,7 @@ app.use((req, res, next) => {
   next();
 });
 //5.Routes
-app.use("/", require("./routes/signRoutes"));
+app.use("/", require("./routes/myRoutes"));
 
 // This is the second last chunk of code
 // Handling non-existent route

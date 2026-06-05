@@ -1,18 +1,18 @@
 {
-  "name": "summative-assessment",
+  "name": "final-assessment",
   "version": "1.0.0",
-  "description": "My summative assignment.",
+  "description": "My final assessment.",
   "keywords": [
-    "summative",
-    "assignment"
+    "final",
+    "assessment"
   ],
-  "homepage": "https://github.com/Sharitah-Nanteza/Summative-Assessment#readme",
+  "homepage": "https://github.com/Sharitah-Nanteza/Final-Assessment#readme",
   "bugs": {
-    "url": "https://github.com/Sharitah-Nanteza/Summative-Assessment/issues"
+    "url": "https://github.com/Sharitah-Nanteza/Final-Assessment/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sharitah-Nanteza/Summative-Assessment                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          .git"
+    "url": "git+https://github.com/Sharitah-Nanteza/Final-Assessment                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          .git"
   },
   "license": "ISC",
   "author": "Sharitah Nanteza",
