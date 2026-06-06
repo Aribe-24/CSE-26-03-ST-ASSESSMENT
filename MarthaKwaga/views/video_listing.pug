@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  .container-fluid.px-4.py-4
+    .d-flex.justify-content-between.align-items-center.mb-3
+      a.logo-small.text-decoration-none(href="/video_listing")
+        span.play-icon-small ▶
+        span Videx
+
+      .d-flex.gap-2
+        a.btn.btn-black(href="/") Back to Home
+        a.btn.add-video-btn(href="/videx-upload") Add Video
+
+    h4.fw-bold Videos
+    hr
+
+    if videos.length === 0
+      .text-center.mt-5
+        h5 No videos uploaded yet
+        p.text-muted Click Add Video to upload your first video.
+
+    else
+      .row.g-4.mt-2
+        each video in videos
+          .col-12.col-sm-6.col-md-4.col-lg-3
+            .video-card
+              a(href=`/watch_video/${video._id}`)
+                img.video-thumbnail(src=video.thumbnailPath, alt=video.title)
+
+              .d-flex.justify-content-between.mt-2
+                a.video-title.text-decoration-none(href=`/watch_video/${video._id}`)
+                  | #{video.title}
+                span.menu-dots ⋮
+
+              p.video-meta.mb-0 #{video.views} views · #{video.timeAgo}
